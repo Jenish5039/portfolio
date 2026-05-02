@@ -135,6 +135,16 @@ export const certifications: Certification[] = [
     issuer: "Canva Design School",
     year: "2026",
   },
+  {
+    name: "Enterprise Design Thinking Practitioner",
+    issuer: "IBM SkillsBuild",
+    year: "April 2026",
+  },
+  {
+    name: "Digital Skills: User Experience",
+    issuer: "Accenture & FutureLearn",
+    year: "April 2026",
+  },
 ];
 
 /* ---------- Social Links ---------- */
