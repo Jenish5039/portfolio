@@ -1,0 +1,330 @@
+/* ========================================
+   Case Study — Scoped Styles
+   Uses design tokens from globals.css
+   ======================================== */
+
+/* ---------- Page wrapper ---------- */
+
+.page {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  padding-top: 80px; /* Clear fixed navbar */
+}
+
+/* ---------- Progress bar ---------- */
+
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 51;
+  background: var(--accent);
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  max-width: 1100px;
+  margin: var(--space-5) auto var(--space-8);
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 340px;
+}
+
+.heroTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.heroTag {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  padding: 4px 14px;
+  background: transparent;
+}
+
+.heroTitle {
+  font-family: var(--font-syne), sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.heroSubtitle {
+  font-family: var(--font-dm-mono), monospace;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--accent);
+  margin-top: var(--space-1);
+}
+
+.heroMeta {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: var(--space-2);
+}
+
+.heroWatermark {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-4);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 8rem;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- Sections container ---------- */
+
+.sectionsWrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--space-3);
+}
+
+/* ---------- Section ---------- */
+
+.section {
+  padding: var(--space-8) 0;
+}
+
+.sectionLabel {
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-3);
+}
+
+.sectionImageWrapper {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.sectionImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* ---------- Divider ---------- */
+
+.divider {
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Floating side nav ---------- */
+
+.floatingNav {
+  position: fixed;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.navDot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.navDotInner {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: all 300ms ease;
+}
+
+.navDot:hover .navDotInner,
+.navDotActive .navDotInner {
+  width: 10px;
+  height: 10px;
+  background-color: var(--accent);
+}
+
+.navDotLabel {
+  position: absolute;
+  right: 20px;
+  white-space: nowrap;
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(4px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.navDot:hover .navDotLabel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- End section ---------- */
+
+.endSection {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-10) var(--space-3);
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-dm-mono), monospace;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 12px 28px;
+  text-decoration: none;
+  transition: border-color var(--transition-base), background var(--transition-base);
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  border-color: var(--accent);
+  background: rgba(155, 93, 229, 0.08);
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-syne), sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 28px;
+  text-decoration: none;
+  transition: background var(--transition-base), transform var(--transition-fast);
+  cursor: pointer;
+}
+
+.btnPrimary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   Mobile  — ≤ 768px
+   ======================================== */
+
+@media (max-width: 768px) {
+  .floatingNav {
+    display: none;
+  }
+
+  .hero {
+    margin: var(--space-3) var(--space-2) var(--space-6);
+    padding: var(--space-6) var(--space-3);
+    min-height: 260px;
+  }
+
+  .heroWatermark {
+    font-size: 5rem;
+  }
+
+  .section {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .sectionsWrapper {
+    padding: 0;
+  }
+
+  .sectionImageWrapper {
+    border-radius: 12px;
+  }
+
+  .endSection {
+    padding: var(--space-6) var(--space-2);
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btnSecondary,
+  .btnPrimary {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* ========================================
+   Accessibility — Reduced Motion
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .progressBar {
+    transition: none;
+  }
+
+  .navDotInner {
+    transition: none;
+  }
+
+  .navDotLabel {
+    transition: none;
+  }
+
+  .btnSecondary,
+  .btnPrimary {
+    transition: none;
+  }
+}
