@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoRythum — UX Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5EFE6;
+    --cream-mid: #EDE4D8;
+    --cream-deep: #D9CEBD;
+    --terra: #C16B3A;
+    --terra-dark: #8B4820;
+    --terra-light: #FAECE7;
+    --terra-pale: #FDF7F4;
+    --ink: #1E1A16;
+    --ink-mid: #3D3529;
+    --ink-muted: #6B5F52;
+    --ink-faint: #9E8E80;
+    --white: #FFFDF9;
+    --border: #D9CEBD;
+    --border-light: #EDE4D8;
+    --purple-bg: #EEEDFE;
+    --purple-text: #3C3489;
+    --green-bg: #EAF3DE;
+    --green-text: #27500A;
+    --amber-bg: #FAEEDA;
+    --amber-text: #633806;
+    --blue-bg: #E6F1FB;
+    --blue-text: #0C447C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F0E8DC;
+    color: var(--ink);
+    width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── SLIDE WRAPPER ── */
+  .slide {
+    width: 1200px;
+    min-height: 680px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 56px 80px;
+    position: relative;
+    page-break-after: always;
+  }
+
+  .slide-tab {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+    background: var(--white);
+  }
+
+  .slide-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: .4rem;
+    line-height: 1.15;
+  }
+
+  .slide-desc {
+    font-size: 14px;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+
+  .divline {
+    height: 1px;
+    background: var(--border-light);
+    margin: 2rem 0;
+  }
+
+  /* ══ SLIDE 1: COVER ══ */
+  #cover {
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 720px;
+  }
+
+  .cover-inner {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .cover-left { flex: 1; }
+
+  .cover-badge {
+    display: inline-block;
+    background: var(--terra);
+    color: var(--terra-light);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: .75rem;
+  }
+
+  .cover-title span { color: var(--terra); }
+
+  .cover-sub {
+    font-size: 16px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-item { }
+  .meta-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--ink-faint);
+    margin-bottom: 3px;
+  }
+  .meta-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* browser mockup */
+  .cover-right {
+    width: 440px;
+    flex-shrink: 0;
+  }
+
+  .browser-frame {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .browser-bar {
+    background: var(--cream-mid);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .b-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .b-dot.r { background: #F09595; }
+  .b-dot.a { background: #FAC775; }
+  .b-dot.g { background: #97C459; }
+
+  .b-url {
+    flex: 1;
+    background: var(--cream);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  .browser-body { padding: 20px; }
+
+  .mock-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .mock-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+  .mock-logo span { color: var(--terra); }
+
+  .mock-search {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    color: var(--ink-muted);
+    width: 140px;
+  }
+
+  .mock-tags {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .mock-tag {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .mock-tag.all { background: var(--terra); color: var(--terra-light); }
+  .mock-tag.geo { background: var(--terra-light); color: var(--terra-dark); }
+  .mock-tag.cli { background: var(--green-bg); color: var(--green-text); }
+  .mock-tag.eco { background: var(--amber-bg); color: var(--amber-text); }
+
+  .mock-article {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+  }
+
+  .mock-art-date { font-size: 10px; color: var(--ink-faint); margin-bottom: 4px; }
+  .mock-art-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+  .mock-art-hook { font-size: 11px; color: var(--ink-muted); line-height: 1.5; margin-bottom: 6px; }
+
+  .mock-art-footer { display: flex; align-items: center; gap: 6px; }
+  .mock-part-badge { font-size: 9px; background: var(--terra); color: var(--terra-light); padding: 2px 7px; border-radius: 8px; }
+  .mock-cat-badge { font-size: 9px; padding: 2px 7px; border-radius: 8px; }
+  .mock-read { font-size: 10px; color: var(--terra); margin-left: auto; }
+
+  /* ══ SLIDE 2: PROBLEM ══ */
+  .prob-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 2rem;
+  }
+
+  .prob-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+
+  .prob-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 20px;
+  }
+
+  .prob-icon-wrap.red { background: #FCEBEB; color: #A32D2D; }
+  .prob-icon-wrap.green { background: var(--green-bg); color: var(--green-text); }
+
+  .prob-card-title { font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: .4rem; }
+  .prob-bar { height: 3px; width: 44px; border-radius: 2px; margin-bottom: 1rem; }
+  .prob-bar.red { background: #E24B4A; }
+  .prob-bar.green { background: #639922; }
+  .prob-text { font-size: 14px; color: var(--ink-muted); line-height: 1.75; }
+
+  /* ══ SLIDE 3: PERSONA ══ */
+  .persona-wrap {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    gap: 28px;
+    margin-top: 2rem;
+  }
+
+  .persona-left {
+    width: 180px;
+    flex-shrink: 0;
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .p-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--green-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green-text);
+    margin: 0 auto 12px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .p-name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .p-role { font-size: 12px; color: var(--ink-muted); margin-bottom: 14px; }
+
+  .p-quote {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .p-stats {
+    font-size: 11px;
+    color: var(--ink-muted);
+    background: var(--cream-mid);
+    border-radius: 8px;
+    padding: 10px;
+    line-height: 1.9;
+    text-align: left;
+  }
+
+  .persona-right {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .pcard {
+    background: var(--cream);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .pcard-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .pcard-bar {
+    height: 2px;
+    width: 32px;
+    border-radius: 2px;
+    background: var(--terra);
+    margin-bottom: 10px;
+  }
+
+  .pcard-bar.danger { background: #E24B4A; }
+
+  .pcard-item {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+    padding-left: 12px;
+    position: relative;
+  }
+
+  .pcard-item::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--terra);
+  }
+
+  /* ══ SLIDE 4: USER FLOW ══ */
+  .flow-container {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 28px;
+    margin-top: 2rem;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .flow-node { text-align: center; }
+
+  .flow-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--green-bg);
+    border: 1.5px solid #97C459;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green-text);
+    margin: 0 auto 8px;
+    line-height: 1.2;
+  }
+
+  .flow-box {
+    width: 100px;
+    height: 56px;
+    background: var(--blue-bg);
+    border: 1.5px solid #85B7EB;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--blue-text);
+    text-align: center;
+    padding: 6px;
+    margin: 0 auto 8px;
+    line-height: 1.3;
+  }
+
+  .flow-label { font-size: 11px; color: var(--ink-faint); }
+
+  .flow-arrow {
+    color: var(--ink-faint);
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-bottom: 24px;
+  }
+
+  /* ══ SLIDE 5: WIREFRAMES ══ */
+  .wf-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 2rem;
+  }
+
+  .wf-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .wf-screen {
+    background: var(--cream);
+    border-radius: 6px;
+    height: 160px;
+    margin-bottom: 10px;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  .wf-label { font-size: 12px; font-weight: 500; color: var(--ink); }
+
+  .wf-bar { height: 7px; background: var(--cream-mid); border-radius: 3px; margin-bottom: 5px; }
+  .wf-bar.s { width: 55%; }
+  .wf-bar.m { width: 78%; }
+  .wf-bar.f { width: 100%; }
+  .wf-block { height: 32px; background: var(--cream-mid); border-radius: 4px; margin-bottom: 5px; }
+  .wf-block.sm { height: 18px; }
+  .wf-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 5px; }
+  .wf-cell { height: 26px; background: var(--cream-mid); border-radius: 3px; }
+  .wf-btn { height: 16px; background: var(--terra); border-radius: 3px; opacity: .35; margin-top: 5px; }
+  .wf-row { display: flex; gap: 4px; margin-bottom: 4px; }
+  .wf-thumb { width: 32px; height: 32px; background: var(--cream-mid); border-radius: 4px; flex-shrink: 0; }
+  .wf-lines { flex: 1; }
+  .wf-lineb { height: 6px; background: var(--cream-mid); border-radius: 2px; margin-bottom: 3px; }
+  .wf-lineb.s { width: 65%; }
+
+  /* ══ SLIDE 6: UI DESIGN ══ */
+  .ui-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 2rem;
+  }
+
+  .ui-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .ui-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--terra-light);
+    color: var(--terra-dark);
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .ui-card-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .ui-card-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
+
+  /* ══ SLIDE 7: FEATURES ══ */
+  .feat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 2rem;
+  }
+
+  .feat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .feat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--terra);
+    background: var(--terra-light);
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .feat-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .feat-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.65; }
+
+  /* ══ SLIDE 8: LEARNINGS ══ */
+  .learn-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .lstat {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .lstat-icon { font-size: 28px; color: var(--terra); margin-bottom: 10px; }
+  .lstat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--terra); margin-bottom: 4px; }
+  .lstat-label { font-size: 12px; color: var(--ink-muted); line-height: 1.4; }
+
+  .learn-list { margin-bottom: 24px; }
+
+  .learn-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+
+  .learn-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--terra);
+    flex-shrink: 0;
+    margin-top: .48rem;
+  }
+
+  .learn-quote {
+    border-left: 4px solid var(--terra);
+    padding: 16px 20px;
+    background: var(--terra-pale);
+  }
+
+  .learn-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--terra-dark);
+    line-height: 1.5;
+  }
+
+  /* ══ SLIDE 9: THANK YOU ══ */
+  #thankyou {
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 680px;
+  }
+
+  .ty-inner { text-align: center; max-width: 540px; }
+
+  .ty-badge {
+    display: inline-block;
+    border: 1.5px solid var(--terra);
+    color: var(--terra);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 18px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    letter-spacing: .06em;
+  }
+
+  .ty-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: .75rem;
+    line-height: 1;
+  }
+
+  .ty-sub {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .ty-quote {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 28px;
+    margin-bottom: 2rem;
+  }
+
+  .ty-quote p {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.6;
+  }
+
+  .ty-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .ty-link { font-size: 14px; color: var(--terra); font-weight: 500; text-decoration: none; }
+  .ty-sep { color: var(--ink-faint); }
+
+  /* ── page numbers ── */
+  .page-num {
+    position: absolute;
+    bottom: 24px;
+    right: 36px;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: .06em;
+  }
+
+  .gr-watermark {
+    position: absolute;
+    bottom: 20px;
+    left: 80px;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--terra);
+    opacity: .5;
+  }
+
+  .gr-watermark span { color: var(--ink-mid); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ SLIDE 1: COVER ══════════════════════════════ -->
+<div class="slide" id="cover">
+  <span class="slide-tab">Banner</span>
+  <div class="cover-inner">
+    <div class="cover-left">
+      <span class="cover-badge">UX Case Study</span>
+      <div class="cover-title">Geo<span>Rythum</span><br>Knowledge Platform</div>
+      <p class="cover-sub">A clean, distraction-free platform for deep geopolitical and climate knowledge. No noise. No overconsumption. Just understanding.</p>
+      <div class="cover-meta">
+        <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">UI/UX Designer</div></div>
+        <div class="meta-item"><div class="meta-label">Duration</div><div class="meta-value">2 Weeks</div></div>
+        <div class="meta-item"><div class="meta-label">Tool</div><div class="meta-value">Figma</div></div>
+        <div class="meta-item"><div class="meta-label">Type</div><div class="meta-value">Web Platform</div></div>
+      </div>
+    </div>
+    <div class="cover-right">
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <div class="b-dot r"></div><div class="b-dot a"></div><div class="b-dot g"></div>
+          <div class="b-url">georythum.com</div>
+        </div>
+        <div class="browser-body">
+          <div class="mock-topbar">
+            <div class="mock-logo">Geo<span>Rythum</span></div>
+            <div class="mock-search">🔍 search...</div>
+          </div>
+          <div class="mock-tags">
+            <span class="mock-tag all">All</span>
+            <span class="mock-tag geo">Geopolitics</span>
+            <span class="mock-tag cli">Climate</span>
+            <span class="mock-tag eco">Economics</span>
+          </div>
+          <div class="mock-article">
+            <div class="mock-art-date">May 10</div>
+            <div class="mock-art-title">"Iran's Invisible Missile Wall Explained"</div>
+            <div class="mock-art-hook">Iran has no aircraft carriers. Yet the most powerful naval forces on Earth refuse to enter its waters...</div>
+            <div class="mock-art-footer">
+              <span class="mock-part-badge">Part 1 of 4</span>
+              <span class="mock-cat-badge" style="background:#EEEDFE;color:#3C3489">Conflict</span>
+              <span class="mock-read">Read more →</span>
+            </div>
+          </div>
+          <div class="mock-article">
+            <div class="mock-art-date">June 1</div>
+            <div class="mock-art-title">"We Have 11 Years"</div>
+            <div class="mock-art-hook">The climate tipping points scientists are too afraid to say out loud...</div>
+            <div class="mock-art-footer">
+              <span class="mock-cat-badge" style="background:#EAF3DE;color:#27500A">Climate</span>
+              <span class="mock-read">Read more →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">01 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 2: PROBLEM ══════════════════════════════ -->
+<div class="slide">
+  <span class="slide-tab">Problem</span>
+  <div class="slide-title">Problem & Goal</div>
+  <div class="slide-desc">Understanding key user challenges and defining a clear solution direction.</div>
+  <div class="prob-grid">
+    <div class="prob-card">
+      <div class="prob-icon-wrap red">&#9888;</div>
+      <div class="prob-card-title">Problem</div>
+      <div class="prob-bar red"></div>
+      <p class="prob-text">Readers struggle to find trustworthy, in-depth analysis on geopolitics and global events. Most news is fragmented, sensationalised, or buried under ads and noise. There is no single platform built for readers who want to truly understand — not just scroll through headlines.</p>
+    </div>
+    <div class="prob-card">
+      <div class="prob-icon-wrap green">&#9654;</div>
+      <div class="prob-card-title">Goal</div>
+      <div class="prob-bar green"></div>
+      <p class="prob-text">Design a distraction-free editorial platform where readers can discover long-form geopolitical and climate content, follow connected article series, and build real understanding — with zero ad clutter, a clear visual language, and a trustworthy editorial voice.</p>
+    </div>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">02 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 3: PERSONA ══════════════════════════════ -->
+<div class="slide">
+  <span class="slide-tab">User Persona</span>
+  <div class="slide-title">User Persona</div>
+  <div class="slide-desc">Understanding the target reader helps design solutions that solve real problems.</div>
+  <div class="persona-wrap">
+    <div class="persona-left">
+      <div class="p-avatar">AK</div>
+      <div class="p-name">Aditya Kumar</div>
+      <div class="p-role">Product Manager, 29</div>
+      <div class="p-quote">"I want to understand what's really happening in the world — without wading through 10 tabs of noise."</div>
+      <div class="p-stats">
+        Age: 29<br>
+        Device: Mobile First<br>
+        Location: Bengaluru<br>
+        Reading: 30 min/day<br>
+        Experience: 5+ years
+      </div>
+    </div>
+    <div class="persona-right">
+      <div class="pcard">
+        <div class="pcard-title">Bio</div>
+        <div class="pcard-bar"></div>
+        <div class="pcard-item">Follows global news daily but finds most sources shallow or politically biased</div>
+        <div class="pcard-item">Prefers long-form content he can read without interruption</div>
+        <div class="pcard-item">Willing to pay for quality, trustworthy information</div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-title">Behaviours</div>
+        <div class="pcard-bar"></div>
+        <div class="pcard-item">Saves articles to read later on commute</div>
+        <div class="pcard-item">Shares analysis content on LinkedIn</div>
+        <div class="pcard-item">Follows long-running topic threads</div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-title">Needs</div>
+        <div class="pcard-bar"></div>
+        <div class="pcard-item">Credible, well-structured analysis</div>
+        <div class="pcard-item">Series format to follow stories over time</div>
+        <div class="pcard-item">Clean, distraction-free reading experience</div>
+      </div>
+      <div class="pcard">
+        <div class="pcard-title">Pain Points</div>
+        <div class="pcard-bar danger"></div>
+        <div class="pcard-item">Overwhelmed by fragmented news coverage</div>
+        <div class="pcard-item">No context connecting related stories</div>
+        <div class="pcard-item">Distracting ads and popups on news sites</div>
+      </div>
+    </div>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">03 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 4: USER FLOW ══════════════════════════════ -->
+<div class="slide">
+  <span class="slide-tab">User Flow</span>
+  <div class="slide-title">User Flow</div>
+  <div class="slide-desc">Mapping the reader journey from discovery to deep engagement with a series.</div>
+  <div class="flow-container">
+    <div class="flow-row">
+      <div class="flow-node">
+        <div class="flow-circle">Home</div>
+        <div class="flow-label">Landing</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-box">Browse Categories</div>
+        <div class="flow-label">Filter</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-box">Read Article</div>
+        <div class="flow-label">Content</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-box">View Series</div>
+        <div class="flow-label">Discovery</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-box">Save / Share</div>
+        <div class="flow-label">Engage</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <div class="flow-circle">Next Part</div>
+        <div class="flow-label">Continue</div>
+      </div>
+    </div>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">04 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 5: WIREFRAMES ══════════════════════════════ -->
+<div class="slide">
+  <span class="slide-tab">Wireframe</span>
+  <div class="slide-title">Low-fidelity wireframes</div>
+  <div class="slide-desc">Sketching core screens to define layout, navigation and reading flow.</div>
+  <div class="wf-grid">
+    <div class="wf-card">
+      <div class="wf-screen">
+        <div class="wf-bar f"></div>
+        <div class="wf-bar s" style="margin-top:8px"></div>
+        <div class="wf-bar m"></div>
+        <div class="wf-block" style="margin-top:8px"></div>
+        <div class="wf-grid2"><div class="wf-cell"></div><div class="wf-cell"></div><div class="wf-cell"></div><div class="wf-cell"></div></div>
+        <div class="wf-row"><div class="wf-thumb"></div><div class="wf-lines"><div class="wf-lineb"></div><div class="wf-lineb s"></div></div></div>
+      </div>
+      <div class="wf-label">Home</div>
+    </div>
+    <div class="wf-card">
+      <div class="wf-screen">
+        <div class="wf-bar f"></div>
+        <div class="wf-bar s" style="margin-top:8px"></div>
+        <div class="wf-row" style="margin-top:8px"><div class="wf-thumb"></div><div class="wf-lines"><div class="wf-lineb"></div><div class="wf-lineb s"></div></div></div>
+        <div class="wf-row"><div class="wf-thumb"></div><div class="wf-lines"><div class="wf-lineb"></div><div class="wf-lineb s"></div></div></div>
+        <div class="wf-row"><div class="wf-thumb"></div><div class="wf-lines"><div class="wf-lineb"></div><div class="wf-lineb s"></div></div></div>
+      </div>
+      <div class="wf-label">Blog feed</div>
+    </div>
+    <div class="wf-card">
+      <div class="wf-screen">
+        <div class="wf-bar m"></div>
+        <div class="wf-bar f" style="margin-top:4px"></div>
+        <div class="wf-block" style="margin-top:6px"></div>
+        <div class="wf-bar f"></div>
+        <div class="wf-bar m"></div>
+        <div class="wf-bar f"></div>
+        <div class="wf-bar s"></div>
+        <div class="wf-bar m"></div>
+      </div>
+      <div class="wf-label">Article</div>
+    </div>
+    <div class="wf-card">
+      <div class="wf-screen">
+        <div class="wf-bar m"></div>
+        <div class="wf-bar s" style="margin-top:4px"></div>
+        <div class="wf-block sm" style="margin-top:8px"></div>
+        <div class="wf-grid2"><div class="wf-cell"></div><div class="wf-cell"></div><div class="wf-cell"></div><div class="wf-cell"></div></div>
+        <div class="wf-bar f" style="margin-top:4px"></div>
+        <div class="wf-bar m"></div>
+        <div class="wf-btn"></div>
+      </div>
+      <div class="wf-label">Series nav</div>
+    </div>
+    <div class="wf-card">
+      <div class="wf-screen">
+        <div class="wf-bar s"></div>
+        <div class="wf-block" style="margin-top:6px"></div>
+        <div class="wf-bar f"></div>
+        <div class="wf-bar m"></div>
+        <div class="wf-bar f"></div>
+        <div class="wf-btn"></div>
+      </div>
+      <div class="wf-label">Saved</div>
+    </div>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">05 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 6: UI DESIGN ══════════════════════════════ -->
+<div class="slide">
+  <span class="slide-tab">UI Screens</span>
+  <div class="slide-title">UI Design</div>
+  <div class="slide-desc">Transforming wireframes into polished interfaces focused on clarity, trust, and deep reading.</div>
+  <div class="ui-grid">
+    <div class="ui-card">
+      <div class="ui-num">01</div>
+      <div class="ui-card-title">Home</div>
+      <div class="ui-card-desc">GeoRythum brand hero, category filters, and featured article cards at a glance</div>
+    </div>
+    <div class="ui-card">
+      <div class="ui-num">02</div>
+      <div class="ui-card-title">Blog feed</div>
+      <div class="ui-card-desc">Article cards with date, hook paragraph, category tag, and read more link</div>
+    </div>
+    <div class="ui-card">
+      <div class="ui-num">03</div>
+      <div class="ui-card-title">Article page</div>
+      <div class="ui-card-desc">Full long-form article with stats bars, pull quotes, tables, and cliffhangers</div>
+    </div>
+    <div class="ui-card">
+      <div class="ui-num">04</div>
+      <div class="ui-card-title">Series navigator</div>
+      <div class="ui-card-desc">Progress tracker showing all parts with prev/next navigation and part badges</div>
+    </div>
+    <div class="ui-card">
+      <div class="ui-num">05</div>
+      <div class="ui-card-title">Saved articles</div>
+      <div class="ui-card-desc">Personal reading list for bookmarked articles with category filters</div>
+    </div>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">06 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 7: FEATURES ══════════════════════════════ -->
+<div class="slide">
+  <span class="slide-tab">Key Features</span>
+  <div class="slide-title">Key Features</div>
+  <div class="slide-desc">Key features designed to simplify discovery, build trust, and enable deep reading.</div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-num">01</div>
+      <div class="feat-title">Series format</div>
+      <div class="feat-desc">Connected multi-part articles let readers follow a story over time with clear progress tracking and part navigation.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">02</div>
+      <div class="feat-title">Category filtering</div>
+      <div class="feat-desc">Tag-based filters for Geopolitics, Climate, Economics, Conflict, and Technology for focused discovery.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">03</div>
+      <div class="feat-title">Zero-ad reading</div>
+      <div class="feat-desc">Completely distraction-free article pages. No ads, no popups, no sidebar noise — just the content.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">04</div>
+      <div class="feat-title">Visual data design</div>
+      <div class="feat-desc">Stats bars, tables, pull quotes, and cliffhanger boxes turn complex data into readable narrative.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">05</div>
+      <div class="feat-title">Save & revisit</div>
+      <div class="feat-desc">Readers bookmark articles to build their own personal knowledge library over time.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-num">06</div>
+      <div class="feat-title">Night mode</div>
+      <div class="feat-desc">Full dark mode support for comfortable long-form reading at any hour of the day.</div>
+    </div>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">07 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 8: LEARNINGS ══════════════════════════════ -->
+<div class="slide">
+  <span class="slide-tab">Key Learnings</span>
+  <div class="slide-title">Key Learnings</div>
+  <div class="slide-desc">The final solution improves trust, deepens engagement, and creates a focused reading experience.</div>
+  <div class="learn-stats">
+    <div class="lstat">
+      <div class="lstat-icon">&#9881;</div>
+      <div class="lstat-num">4</div>
+      <div class="lstat-label">Connected article series built and published</div>
+    </div>
+    <div class="lstat">
+      <div class="lstat-icon">&#9650;</div>
+      <div class="lstat-num">Improved</div>
+      <div class="lstat-label">Reader trust through structured series content</div>
+    </div>
+    <div class="lstat">
+      <div class="lstat-icon">&#9654;</div>
+      <div class="lstat-num">6-Step</div>
+      <div class="lstat-label">Simplified reader journey from home to next part</div>
+    </div>
+  </div>
+  <div class="learn-list">
+    <div class="learn-item"><div class="learn-dot"></div>Designing for depth is as important as designing for speed — readers want to go further, not just scroll faster</div>
+    <div class="learn-item"><div class="learn-dot"></div>Series structure dramatically increases return visits — readers come back to complete what they started</div>
+    <div class="learn-item"><div class="learn-dot"></div>Clear visual hierarchy (stats, quotes, tables) turns complex global topics into confident reader understanding</div>
+  </div>
+  <div class="learn-quote">
+    <p>"Designing simple structures for complex knowledge creates meaningful reading experiences."</p>
+  </div>
+  <div class="gr-watermark">Geo<span>Rythum</span></div>
+  <div class="page-num">08 / 09</div>
+</div>
+
+<!-- ══════════════════════════════ SLIDE 9: THANK YOU ══════════════════════════════ -->
+<div class="slide" id="thankyou">
+  <div class="ty-inner">
+    <div class="ty-badge">UX Case Study</div>
+    <div class="ty-title">Thank You</div>
+    <p class="ty-sub">Designed to simplify complex global knowledge through trust, clarity, and a distraction-free reading experience.</p>
+    <div class="ty-quote">
+      <p>"Good design makes complexity feel simple — and the world feel understandable."</p>
+    </div>
+    <div class="ty-links">
+      <a href="#" class="ty-link">Portfolio</a>
+      <span class="ty-sep">|</span>
+      <a href="#" class="ty-link">Email</a>
+      <span class="ty-sep">|</span>
+      <a href="#" class="ty-link">LinkedIn</a>
+    </div>
+  </div>
+  <div class="page-num">09 / 09</div>
+</div>
+
+</body>
+</html>
