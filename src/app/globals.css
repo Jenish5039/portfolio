@@ -1,0 +1,340 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   Retool x Antigravity Design System
+   Minimal Obsidian Atelier · Spatial Weightlessness · Pure Craft
+   Canvas: #151515 · Void: #0e0e0e · Raised Slab: #242424
+   Parchment Text: #e9ebdf · Fog Text: #cbccc4 · Limestone: #b6b8af
+   ======================================== */
+
+:root {
+  /* Colors */
+  --color-obsidian-canvas: #151515;
+  --color-void-black: #0e0e0e;
+  --color-ember-surface: #242424;
+  --color-ember-surface-hover: #2a2a2a;
+  --color-charcoal-rim: #363735;
+  --color-charcoal-subtle: rgba(233, 235, 223, 0.08);
+  --color-copper-wire: #8b867f;
+  --color-ash-text: #94958e;
+  --color-fog-text: #cbccc4;
+  --color-limestone: #b6b8af;
+  --color-parchment: #e9ebdf;
+  --color-forest-deep: #185849;
+  --color-midnight-moss: #0e352c;
+
+  /* Typography — Font Families */
+  --font-saansfont: var(--font-saans), 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-pxgroteskfont: var(--font-pxgrotesk), 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-pt-seriffont: var(--font-pt-serif), 'PT Serif', Georgia, serif;
+  --font-ui-sans-serif: 'ui-sans-serif', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Typography — Weights */
+  --font-weight-light: 300;
+  --font-weight-w380: 380;
+  --font-weight-regular: 400;
+  --font-weight-w570: 570;
+
+  /* Spacing Scale */
+  --spacing-unit: 4px;
+  --page-max-width: 1200px;
+  --section-gap: 120px;
+
+  /* Named Radii */
+  --radius-cards-large: 12px;
+  --radius-cards-default: 8px;
+  --radius-tags-badges: 4px;
+  --radius-buttons-pill: 9999px;
+  --radius-buttons-square: 0px;
+
+  /* Antigravity Motion Curve */
+  --ease-antigravity: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-mechanical: cubic-bezier(0.72, 0, 0.12, 1);
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #151515;
+  color: #e9ebdf;
+}
+
+body {
+  background-color: var(--color-obsidian-canvas);
+  color: var(--color-parchment);
+  font-family: var(--font-saansfont);
+  font-weight: 380;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-charcoal-rim);
+  color: var(--color-parchment);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-obsidian-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal-rim);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-copper-wire);
+}
+
+/* ========================================
+   Typography Utilities (Minimal, Non-Flashy)
+   ======================================== */
+
+.font-saans {
+  font-family: var(--font-saansfont);
+}
+
+.font-grotesk {
+  font-family: var(--font-pxgroteskfont);
+}
+
+.font-serif,
+.font-pt-serif {
+  font-family: var(--font-pt-seriffont);
+}
+
+.font-serif-display {
+  font-family: var(--font-serif-display), var(--font-pt-seriffont), Georgia, serif;
+}
+
+.eyebrow-label {
+  font-family: var(--font-pxgroteskfont);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-limestone);
+}
+
+/* Subtle Text Contrast Highlight (Minimal, Elegant) */
+.text-highlight {
+  color: var(--color-parchment);
+  font-weight: 300;
+}
+
+.text-muted-headline {
+  color: var(--color-ash-text);
+  font-weight: 300;
+}
+
+/* ========================================
+   Spatial Flat Surfaces (Colorimetric Depth + Subtle Antigravity Elevation)
+   ======================================== */
+
+/* Raised Slab — Level 2 (12px radius, zero drop shadow) */
+.card-raised {
+  background-color: var(--color-ember-surface);
+  border: 1px solid var(--color-charcoal-rim);
+  border-radius: 12px;
+  box-shadow: none;
+  transition: border-color 0.25s var(--ease-antigravity), background-color 0.25s var(--ease-antigravity), transform 0.25s var(--ease-antigravity);
+}
+
+.card-raised:hover {
+  border-color: rgba(233, 235, 223, 0.25);
+  background-color: var(--color-ember-surface-hover);
+}
+
+.card-raised-sm {
+  background-color: var(--color-ember-surface);
+  border: 1px solid var(--color-charcoal-rim);
+  border-radius: 8px;
+  box-shadow: none;
+  transition: border-color 0.25s var(--ease-antigravity);
+}
+
+.card-raised-sm:hover {
+  border-color: rgba(233, 235, 223, 0.25);
+}
+
+/* Deep Recessed Slab — Level 0 (0px radius) */
+.card-deep {
+  background-color: var(--color-void-black);
+  border: 1px solid var(--color-charcoal-rim);
+  border-radius: 0px;
+  box-shadow: none;
+}
+
+/* Glassmorphic Minimal Bar */
+.glass-bar {
+  background-color: rgba(21, 21, 21, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-charcoal-rim);
+}
+
+/* ========================================
+   Buttons — Binary Radius Grammar (0px or 9999px)
+   ======================================== */
+
+/* Filled Pill Button — Primary Luminance CTA */
+.btn-pill-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--color-parchment);
+  color: var(--color-obsidian-canvas);
+  border: 1px solid var(--color-parchment);
+  border-radius: 9999px;
+  padding: 9px 22px;
+  font-family: var(--font-saansfont);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: none;
+  transition: opacity 0.2s var(--ease-antigravity), transform 0.2s var(--ease-antigravity);
+}
+
+.btn-pill-filled:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+/* Ghost Pill Button — Secondary Nav Action */
+.btn-pill-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: var(--color-parchment);
+  border: 1px solid var(--color-charcoal-rim);
+  border-radius: 9999px;
+  padding: 9px 20px;
+  font-family: var(--font-saansfont);
+  font-size: 14px;
+  font-weight: 380;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color 0.2s var(--ease-antigravity), background-color 0.2s var(--ease-antigravity);
+}
+
+.btn-pill-ghost:hover {
+  border-color: var(--color-parchment);
+  background-color: rgba(233, 235, 223, 0.05);
+}
+
+/* Ghost Button — Square 0px (Secondary contextual links) */
+.btn-square-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--color-parchment);
+  border: 1px solid var(--color-charcoal-rim);
+  border-radius: 0px;
+  padding: 9px 18px;
+  font-family: var(--font-pxgroteskfont);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: none;
+  transition: border-color 0.2s var(--ease-antigravity), background-color 0.2s var(--ease-antigravity);
+}
+
+.btn-square-ghost:hover {
+  border-color: var(--color-parchment);
+  background-color: rgba(233, 235, 223, 0.04);
+}
+
+/* Ghost Text Link */
+.ghost-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--color-ash-text);
+  font-family: var(--font-pxgroteskfont);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.2s var(--ease-antigravity);
+}
+
+.ghost-text-link:hover {
+  color: var(--color-parchment);
+}
+
+/* Status Badge / Tag — 4px radius */
+.badge-moss {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-midnight-moss);
+  color: var(--color-parchment);
+  border: 1px solid rgba(24, 88, 73, 0.4);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-family: var(--font-pxgroteskfont);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+.section-padding {
+  padding-left: clamp(20px, 6vw, 56px);
+  padding-right: clamp(20px, 6vw, 56px);
+}
+
+/* Keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--color-copper-wire);
+  outline-offset: 2px;
+}
+
+/* Loading screen */
+.content-ready {
+  animation: content-fade 0.35s var(--ease-antigravity);
+}
+
+@keyframes content-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-charcoal-rim) var(--color-obsidian-canvas);
+}

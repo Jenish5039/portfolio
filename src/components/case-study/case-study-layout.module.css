@@ -1,0 +1,384 @@
+/* ========================================
+   Case Study Layout — Retool Style CSS Module
+   Warm Obsidian Workshop · Zero-shadow elevation
+   Ground: #151515 · Surface: #242424 · Text: #e9ebdf
+   ======================================== */
+
+.page {
+  min-height: 100vh;
+  background-color: var(--color-obsidian-canvas, #151515);
+  color: var(--color-parchment, #e9ebdf);
+  font-family: var(--font-saans), 'Inter', ui-sans-serif, system-ui, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: 80px;
+  font-weight: 380;
+}
+
+/* ---------- Top Navbar / Header Container ---------- */
+.headerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 110px 24px 32px 24px;
+}
+
+.topBreadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-parchment, #e9ebdf);
+  text-decoration: none;
+  background: var(--color-ember-surface, #242424);
+  border: 1px solid var(--color-charcoal-rim, #3f403d);
+  padding: 8px 18px;
+  border-radius: 0px;
+  transition: all 180ms ease;
+}
+
+.backBtn:hover {
+  background: var(--color-charcoal-rim, #3f403d);
+  color: var(--color-parchment, #e9ebdf);
+  border-color: var(--color-parchment, #e9ebdf);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-midnight-moss, #0e352c);
+  color: var(--color-parchment, #e9ebdf);
+  font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(24, 88, 73, 0.4);
+}
+
+/* ---------- Title & Description Header ---------- */
+.titleBlock {
+  background: var(--color-ember-surface, #242424);
+  border: 1px solid var(--color-charcoal-rim, #3f403d);
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 40px;
+}
+
+.mainTitle {
+  font-family: inherit;
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 300;
+  color: var(--color-parchment, #e9ebdf);
+  line-height: 1.05;
+  margin-bottom: 12px;
+  letter-spacing: -0.48px;
+}
+
+.tagline {
+  font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
+  font-style: normal;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-limestone, #b6b8af);
+  margin-bottom: 24px;
+}
+
+.description {
+  font-family: inherit;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--color-fog-text, #cbccc4);
+  max-width: 840px;
+  margin-bottom: 32px;
+  font-weight: 380;
+}
+
+/* ---------- Metadata Grid ---------- */
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  border-top: 1px solid var(--color-charcoal-rim, #3f403d);
+  padding-top: 24px;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metaLabel {
+  font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-limestone, #b6b8af);
+  font-weight: 400;
+}
+
+.metaValue {
+  font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
+  font-weight: 400;
+  font-size: 0.95rem;
+  color: var(--color-parchment, #e9ebdf);
+}
+
+/* ---------- Behance Single Image Showcase Container ---------- */
+.showcaseWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imageFrame {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--color-void-black, #0e0e0e);
+  border: 1px solid var(--color-charcoal-rim, #3f403d);
+}
+
+.caseStudyImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ---------- Floating Quick Control Bar ---------- */
+.floatingControl {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(36, 36, 36, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--color-charcoal-rim, #3f403d);
+}
+
+.floatingBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-fog-text, #cbccc4);
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.floatingBtn:hover {
+  color: var(--color-parchment, #e9ebdf);
+  background: rgba(233, 235, 223, 0.08);
+}
+
+.floatingBtnPrimary {
+  background: var(--color-parchment, #e9ebdf);
+  color: var(--color-obsidian-canvas, #151515);
+  font-weight: 400;
+}
+
+.floatingBtnPrimary:hover {
+  background: var(--color-parchment, #e9ebdf);
+  opacity: 0.9;
+  color: var(--color-obsidian-canvas, #151515);
+}
+
+.controlDivider {
+  width: 1px;
+  height: 18px;
+  background: var(--color-charcoal-rim, #3f403d);
+}
+
+/* ---------- Footer Navigation ---------- */
+.footerSection {
+  max-width: 1200px;
+  margin: 64px auto 0 auto;
+  padding: 0 24px;
+}
+
+.footerCard {
+  background: var(--color-ember-surface, #242424);
+  border: 1px solid var(--color-charcoal-rim, #3f403d);
+  border-radius: 12px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footerBadge {
+  font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-limestone, #b6b8af);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.footerTitle {
+  font-family: inherit;
+  font-size: 2.25rem;
+  font-weight: 300;
+  color: var(--color-parchment, #e9ebdf);
+  margin-bottom: 12px;
+  letter-spacing: -0.36px;
+}
+
+.footerSubtitle {
+  font-family: inherit;
+  font-size: 1.125rem;
+  color: var(--color-fog-text, #cbccc4);
+  max-width: 500px;
+  margin-bottom: 32px;
+  line-height: 1.5;
+  font-weight: 380;
+}
+
+.footerButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-saans), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 380;
+  color: var(--color-parchment, #e9ebdf);
+  background: transparent;
+  border: 1px solid var(--color-charcoal-rim, #3f403d);
+  padding: 10px 20px;
+  border-radius: 0px;
+  text-decoration: none;
+  transition: all 150ms ease;
+}
+
+.btnSecondary:hover {
+  border-color: var(--color-parchment, #e9ebdf);
+  background-color: rgba(233, 235, 223, 0.04);
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-saans), sans-serif;
+  font-weight: 380;
+  font-size: 0.875rem;
+  color: var(--color-obsidian-canvas, #151515);
+  background: var(--color-parchment, #e9ebdf);
+  border: 1px solid var(--color-obsidian-canvas, #151515);
+  padding: 10px 22px;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 150ms ease;
+}
+
+.btnPrimary:hover {
+  opacity: 0.92;
+}
+
+/* ========================================
+   Responsive Breakpoints
+   ======================================== */
+
+@media (max-width: 768px) {
+  .headerContainer {
+    padding-top: 80px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .titleBlock {
+    padding: 24px;
+    border-radius: 8px;
+  }
+
+  .showcaseWrapper {
+    padding: 0 12px;
+  }
+
+  .imageFrame {
+    border-radius: 8px;
+  }
+
+  .footerCard {
+    padding: 32px 20px;
+    border-radius: 8px;
+  }
+
+  .floatingControl {
+    bottom: 20px;
+    padding: 4px 10px;
+    gap: 6px;
+  }
+
+  .floatingBtn {
+    font-size: 0.75rem;
+    padding: 5px 8px;
+  }
+
+  .footerButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btnSecondary,
+  .btnPrimary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .backBtn,
+  .floatingBtn,
+  .btnSecondary,
+  .btnPrimary {
+    transition: none !important;
+  }
+}
+
+
