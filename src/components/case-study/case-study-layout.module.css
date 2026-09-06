@@ -1,13 +1,16 @@
 /* ========================================
-   Case Study Layout — Retool Style CSS Module
-   Warm Obsidian Workshop · Zero-shadow elevation
-   Ground: #151515 · Surface: #242424 · Text: #e9ebdf
+   Case Study Layout — Smoked Obsidian Luxury CSS Module
+   Canvas: #040711 · Surface: Smoked Obsidian Glass · Text: #f8fafc
    ======================================== */
 
 .page {
   min-height: 100vh;
-  background-color: var(--color-obsidian-canvas, #151515);
-  color: var(--color-parchment, #e9ebdf);
+  background-color: var(--color-canvas, #080707);
+  background-image:
+    radial-gradient(ellipse 85% 55% at 50% -10%, color-mix(in srgb, var(--cs-accent, #f43f5e) 12%, transparent) 0%, transparent 65%),
+    radial-gradient(ellipse 65% 55% at 85% 60%, rgba(249, 115, 22, 0.04) 0%, transparent 60%);
+  background-attachment: fixed;
+  color: var(--color-text-primary, #fafaf9);
   font-family: var(--font-saans), 'Inter', ui-sans-serif, system-ui, sans-serif;
   position: relative;
   overflow-x: hidden;
@@ -37,52 +40,64 @@
   gap: 8px;
   font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--color-parchment, #e9ebdf);
+  font-weight: 500;
+  color: #fafaf9;
   text-decoration: none;
-  background: var(--color-ember-surface, #242424);
-  border: 1px solid var(--color-charcoal-rim, #3f403d);
-  padding: 8px 18px;
-  border-radius: 0px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   transition: all 180ms ease;
 }
 
 .backBtn:hover {
-  background: var(--color-charcoal-rim, #3f403d);
-  color: var(--color-parchment, #e9ebdf);
-  border-color: var(--color-parchment, #e9ebdf);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: var(--cs-accent, #f43f5e);
+  transform: translateY(-1px);
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--color-midnight-moss, #0e352c);
-  color: var(--color-parchment, #e9ebdf);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--cs-accent, #f43f5e);
   font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
   font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 4px;
-  border: 1px solid rgba(24, 88, 73, 0.4);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--cs-accent, #f43f5e) 30%, transparent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ---------- Title & Description Header ---------- */
 .titleBlock {
-  background: var(--color-ember-surface, #242424);
-  border: 1px solid var(--color-charcoal-rim, #3f403d);
-  border-radius: 12px;
+  background: rgba(22, 17, 16, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
   padding: 40px;
   margin-bottom: 40px;
+  box-shadow:
+    0 20px 50px -12px rgba(0, 0, 0, 0.85),
+    0 1px 2px rgba(255, 255, 255, 0.1) inset;
 }
 
 .mainTitle {
   font-family: inherit;
   font-size: clamp(2.25rem, 5vw, 3.5rem);
-  font-weight: 300;
-  color: var(--color-parchment, #e9ebdf);
+  font-weight: 700;
+  color: #ffffff;
   line-height: 1.05;
   margin-bottom: 12px;
   letter-spacing: -0.48px;
@@ -92,18 +107,18 @@
   font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
   font-style: normal;
   font-size: 0.875rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--color-limestone, #b6b8af);
+  color: var(--cs-accent, #f43f5e);
   margin-bottom: 24px;
 }
 
 .description {
   font-family: inherit;
   font-size: 1.125rem;
-  line-height: 1.5;
-  color: var(--color-fog-text, #cbccc4);
+  line-height: 1.6;
+  color: #d6d3d1;
   max-width: 840px;
   margin-bottom: 32px;
   font-weight: 380;
@@ -114,7 +129,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
-  border-top: 1px solid var(--color-charcoal-rim, #3f403d);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 24px;
 }
 
@@ -128,16 +143,16 @@
   font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--color-limestone, #b6b8af);
-  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  font-weight: 600;
 }
 
 .metaValue {
   font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.95rem;
-  color: var(--color-parchment, #e9ebdf);
+  color: #f8fafc;
 }
 
 /* ---------- Behance Single Image Showcase Container ---------- */
@@ -152,10 +167,11 @@
 
 .imageFrame {
   width: 100%;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  background-color: var(--color-void-black, #0e0e0e);
-  border: 1px solid var(--color-charcoal-rim, #3f403d);
+  background-color: rgba(6, 10, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 }
 
 .caseStudyImg {
@@ -175,12 +191,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(36, 36, 36, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(18, 13, 12, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 6px 14px;
   border-radius: 9999px;
-  border: 1px solid var(--color-charcoal-rim, #3f403d);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75);
 }
 
 .floatingBtn {
@@ -189,11 +206,11 @@
   gap: 6px;
   font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
   font-size: 0.875rem;
-  font-weight: 400;
-  color: var(--color-fog-text, #cbccc4);
+  font-weight: 500;
+  color: #a8a29e;
   background: transparent;
   border: none;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 9999px;
   cursor: pointer;
   text-decoration: none;
@@ -202,26 +219,26 @@
 }
 
 .floatingBtn:hover {
-  color: var(--color-parchment, #e9ebdf);
-  background: rgba(233, 235, 223, 0.08);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .floatingBtnPrimary {
-  background: var(--color-parchment, #e9ebdf);
-  color: var(--color-obsidian-canvas, #151515);
-  font-weight: 400;
+  background: #fafaf9;
+  color: #0c0a09;
+  font-weight: 600;
 }
 
 .floatingBtnPrimary:hover {
-  background: var(--color-parchment, #e9ebdf);
-  opacity: 0.9;
-  color: var(--color-obsidian-canvas, #151515);
+  background: #ffffff;
+  color: #0c0a09;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--cs-accent, #f43f5e) 30%, transparent);
 }
 
 .controlDivider {
   width: 1px;
   height: 18px;
-  background: var(--color-charcoal-rim, #3f403d);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 /* ---------- Footer Navigation ---------- */
@@ -232,31 +249,34 @@
 }
 
 .footerCard {
-  background: var(--color-ember-surface, #242424);
-  border: 1px solid var(--color-charcoal-rim, #3f403d);
-  border-radius: 12px;
+  background: rgba(22, 17, 16, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
   padding: 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
 }
 
 .footerBadge {
   font-family: var(--font-pxgrotesk), 'Space Grotesk', sans-serif;
   font-size: 0.75rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-limestone, #b6b8af);
+  color: var(--cs-accent, #f43f5e);
   margin-bottom: 12px;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .footerTitle {
   font-family: inherit;
   font-size: 2.25rem;
-  font-weight: 300;
-  color: var(--color-parchment, #e9ebdf);
+  font-weight: 700;
+  color: #ffffff;
   margin-bottom: 12px;
   letter-spacing: -0.36px;
 }
@@ -264,7 +284,7 @@
 .footerSubtitle {
   font-family: inherit;
   font-size: 1.125rem;
-  color: var(--color-fog-text, #cbccc4);
+  color: #a8a29e;
   max-width: 500px;
   margin-bottom: 32px;
   line-height: 1.5;
@@ -284,19 +304,21 @@
   gap: 8px;
   font-family: var(--font-saans), sans-serif;
   font-size: 0.875rem;
-  font-weight: 380;
-  color: var(--color-parchment, #e9ebdf);
-  background: transparent;
-  border: 1px solid var(--color-charcoal-rim, #3f403d);
-  padding: 10px 20px;
-  border-radius: 0px;
+  font-weight: 500;
+  color: #fafaf9;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px 22px;
+  border-radius: 9999px;
   text-decoration: none;
   transition: all 150ms ease;
 }
 
 .btnSecondary:hover {
-  border-color: var(--color-parchment, #e9ebdf);
-  background-color: rgba(233, 235, 223, 0.04);
+  border-color: var(--cs-accent, #f43f5e);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 .btnPrimary {
@@ -304,19 +326,23 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-saans), sans-serif;
-  font-weight: 380;
+  font-weight: 600;
   font-size: 0.875rem;
-  color: var(--color-obsidian-canvas, #151515);
-  background: var(--color-parchment, #e9ebdf);
-  border: 1px solid var(--color-obsidian-canvas, #151515);
-  padding: 10px 22px;
+  color: #0c0a09;
+  background: #fafaf9;
+  border: 1px solid #ffffff;
+  padding: 10px 24px;
   border-radius: 9999px;
   text-decoration: none;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
   transition: all 150ms ease;
 }
 
 .btnPrimary:hover {
-  opacity: 0.92;
+  background: #ffffff;
+  border-color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--cs-accent, #f43f5e) 35%, transparent);
 }
 
 /* ========================================
@@ -332,7 +358,7 @@
 
   .titleBlock {
     padding: 24px;
-    border-radius: 8px;
+    border-radius: 12px;
   }
 
   .showcaseWrapper {
@@ -340,12 +366,12 @@
   }
 
   .imageFrame {
-    border-radius: 8px;
+    border-radius: 12px;
   }
 
   .footerCard {
     padding: 32px 20px;
-    border-radius: 8px;
+    border-radius: 12px;
   }
 
   .floatingControl {
@@ -356,7 +382,7 @@
 
   .floatingBtn {
     font-size: 0.75rem;
-    padding: 5px 8px;
+    padding: 5px 10px;
   }
 
   .footerButtons {
@@ -380,5 +406,3 @@
     transition: none !important;
   }
 }
-
-

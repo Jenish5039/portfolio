@@ -16,33 +16,33 @@ interface ScrollRevealProps {
 
 const variants: Record<AnimationType, Variants> = {
   "fade-up": {
-    hidden: { opacity: 0, y: 16 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 24, scale: 0.985 },
+    visible: { opacity: 1, y: 0, scale: 1 },
   },
   "fade-in": {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+    hidden: { opacity: 0, scale: 0.985 },
+    visible: { opacity: 1, scale: 1 },
   },
   "slide-left": {
-    hidden: { opacity: 0, x: 16 },
+    hidden: { opacity: 0, x: 24 },
     visible: { opacity: 1, x: 0 },
   },
   "slide-right": {
-    hidden: { opacity: 0, x: -16 },
+    hidden: { opacity: 0, x: -24 },
     visible: { opacity: 1, x: 0 },
   },
 };
 
 export default function ScrollReveal({
   children,
-  animation = "fade-in",
+  animation = "fade-up",
   delay = 0,
-  duration = 0.5,
+  duration = 0.75,
   className = "",
   once = true,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, margin: "-80px 0px" });
+  const isInView = useInView(ref, { once, margin: "-60px 0px" });
 
   return (
     <motion.div
@@ -54,7 +54,7 @@ export default function ScrollReveal({
       transition={{
         duration,
         delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: [0.16, 1, 0.3, 1],
       }}
     >
       {children}

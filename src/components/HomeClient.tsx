@@ -1,15 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import LoadingScreen from "@/components/ui/LoadingScreen";
+import { useEffect } from "react";
 
 export default function HomeClient({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [, setIsLoading] = useState(true);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       if ("scrollRestoration" in window.history) {
@@ -19,10 +16,5 @@ export default function HomeClient({
     }
   }, []);
 
-  return (
-    <>
-      <LoadingScreen onComplete={() => setIsLoading(false)} />
-      <div>{children}</div>
-    </>
-  );
+  return <div className="w-full">{children}</div>;
 }

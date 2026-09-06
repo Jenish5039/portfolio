@@ -2,36 +2,26 @@
    Portfolio Data — Single source of truth
    ======================================== */
 
-export interface Skill {
-  name: string;
-  category: "design" | "research" | "development";
+export interface ProjectStat {
+  label: string;
+  value: string;
+  desc: string;
 }
 
 export interface Project {
   id: string;
   title: string;
   subtitle: string;
+  category: "all" | "web" | "mobile";
+  role: string;
+  duration: string;
+  accent: string;
+  accentGlow: string;
   description: string;
   tags: string[];
-  gradient: string;
   image?: string;
-  highlights: string[];
+  stats: ProjectStat[];
   href?: string;
-  prototypeHref?: string;
-}
-
-export interface Education {
-  degree: string;
-  field: string;
-  institution: string;
-  location: string;
-  year: string;
-}
-
-export interface Certification {
-  name: string;
-  issuer: string;
-  year: string;
 }
 
 export interface SocialLink {
@@ -44,33 +34,12 @@ export interface SocialLink {
 
 export const personalInfo = {
   name: "Jeme",
-  firstName: "Jeme",
-  lastName: "",
-  role: "Product & UI/UX Designer · AI-Accelerated Frontend",
-  location: "Hosur, Tamil Nadu",
+  fullName: "JENISH M",
+  role: "Product & UI/UX Designer",
+  location: "Hosur, Tamil Nadu · Remote",
   email: "jenishlogesh@gmail.com",
   phone: "+91 79044 40223",
-  bio: "Product & UI/UX Designer dedicated to solving complex user problems through user research, intuitive interaction design, and scalable Figma design systems. I also bridge design and code by building high-performance frontend interfaces using AI-accelerated workflows in React and Next.js.",
 } as const;
-
-export const aboutParagraphs = [
-  "I specialize in Product Design and UI/UX — translating ambiguous problems into clear, elegant digital experiences through user research, information architecture, wireframing, and comprehensive Figma design systems.",
-  "To bring designs to life with speed and precision, I leverage AI-accelerated frontend engineering in React and Next.js, ensuring design decisions translate seamlessly into functional web applications.",
-];
-
-/* ---------- Skills ---------- */
-
-export const skills: Skill[] = [
-  { name: "Product Design", category: "design" },
-  { name: "UI/UX Design", category: "design" },
-  { name: "Figma & Design Systems", category: "design" },
-  { name: "User Research & Testing", category: "research" },
-  { name: "Wireframing & Prototyping", category: "design" },
-  { name: "Information Architecture", category: "design" },
-  { name: "Interaction Design", category: "design" },
-  { name: "AI Coding Workflows", category: "development" },
-  { name: "React & Next.js", category: "development" },
-];
 
 /* ---------- Projects ---------- */
 
@@ -78,15 +47,20 @@ export const projects: Project[] = [
   {
     id: "georythum",
     title: "GeoRythum",
-    subtitle: "Geopolitical Knowledge Platform",
+    subtitle: "Geopolitical & Climate Knowledge Platform",
+    category: "web",
+    role: "Lead UI/UX & System Designer",
+    duration: "2 Weeks Sprint",
+    accent: "#c16b3a",
+    accentGlow: "rgba(193, 107, 58, 0.28)",
     description:
-      "A distraction-free editorial platform for deep geopolitical and climate knowledge, structured around connected series reading.",
-    tags: ["UI/UX Design", "Web Platform", "Figma"],
-    gradient: "linear-gradient(135deg, #C16B3A 0%, #8B4820 50%, #3D3529 100%)",
-    image: "/georythum-preview.webp",
-    highlights: [
-      "Series-based long-form editorial experience",
-      "Distraction-free reading with dark mode support",
+      "An editorial platform for geopolitical and climate analysis, structured around connected series reading, modular typography, and distraction-free ergonomics.",
+    tags: ["Product Strategy", "Editorial UX", "Figma Design System", "APCA Contrast"],
+    image: "/georythum-showcase.jpeg",
+    stats: [
+      { label: "INFORMATION ARCHITECTURE", value: "Series IA", desc: "Multi-chapter connected reading paths" },
+      { label: "DESIGN TOKENS", value: "32+ Tokens", desc: "Documented typography & color primitives" },
+      { label: "READING ERGONOMICS", value: "Editorial Scale", desc: "Contrast-tuned serif & mono hierarchy" },
     ],
     href: "/case-study/georythum",
   },
@@ -94,47 +68,22 @@ export const projects: Project[] = [
   {
     id: "galo",
     title: "GALO",
-    subtitle: "Memory Vault & Time Capsule",
+    subtitle: "Privacy-First Memory Vault & Time Capsule",
+    category: "mobile",
+    role: "Mobile UI/UX Designer",
+    duration: "4 Weeks Sprint",
+    accent: "#e4715a",
+    accentGlow: "rgba(228, 113, 90, 0.28)",
     description:
-      "A privacy-first mobile application designed to preserve personal moments and memories through secure, time-locked capsules.",
-    tags: ["UI/UX Design", "Mobile App", "Design System"],
-    gradient: "linear-gradient(135deg, #0d1b2a 0%, #1b3a4b 50%, #065a60 100%)",
-    image: "/galo-preview.webp",
-    highlights: [
-      "Time-locked capsules delivered to future dates",
-      "Biometric vault protection with local-first storage",
+      "A mobile application designed to preserve personal moments through secure, time-locked capsules — replacing algorithmic social feeds with intentional future reflection.",
+    tags: ["Product Design", "Mobile iOS/Android", "Design System", "Privacy UX"],
+    image: "/galo-showcase.jpeg",
+    stats: [
+      { label: "INTERACTION MODEL", value: "Time-Locked", desc: "Scheduled future capsule delivery engine" },
+      { label: "SECURITY MODEL", value: "Local-First", desc: "Biometric authentication concept" },
+      { label: "COMPONENT LIBRARY", value: "24+ Components", desc: "Modular Figma mobile UI system" },
     ],
     href: "/case-study/galo",
-  },
-];
-
-/* ---------- Education ---------- */
-
-export const education: Education = {
-  degree: "B.Tech",
-  field: "Computer Science & Engineering (Artificial Intelligence)",
-  institution: "Karunya Institute of Technology and Sciences",
-  location: "Coimbatore",
-  year: "2025",
-};
-
-/* ---------- Certifications ---------- */
-
-export const certifications: Certification[] = [
-  {
-    name: "Graphic Design Essentials",
-    issuer: "Canva Design School",
-    year: "2026",
-  },
-  {
-    name: "Enterprise Design Thinking Practitioner",
-    issuer: "IBM SkillsBuild",
-    year: "April 2026",
-  },
-  {
-    name: "Digital Skills: User Experience",
-    issuer: "Accenture & FutureLearn",
-    year: "April 2026",
   },
 ];
 
@@ -190,12 +139,6 @@ export const socialLinks: SocialLink[] = [
   },
 ];
 
-/* ---------- Nav Links ---------- */
-
-export const navLinks = [
-  { label: "Works", href: "#projects" },
-  { label: "About", href: "#about" },
-] as const;
 
 /* ---------- Case Studies ---------- */
 

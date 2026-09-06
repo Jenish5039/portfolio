@@ -7,29 +7,29 @@ import Magnetic from "@/components/ui/Magnetic";
 export default function Footer() {
   return (
     <footer
-      className="relative bg-void-black text-parchment section-padding pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 border-t border-charcoal-rim"
+      className="relative text-white section-padding pt-24 sm:pt-32 lg:pt-36 pb-16 sm:pb-20 border-t border-white/10"
       role="contentinfo"
     >
-      <div className="mx-auto max-w-[1200px]">
+      <div className="mx-auto max-w-[1240px]">
         <ScrollReveal>
           {/* Main Footer Banner */}
-          <div className="mb-16 sm:mb-20 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end pb-12 sm:pb-16 border-b border-charcoal-rim">
+          <div className="mb-14 sm:mb-18 flex flex-col items-start justify-between gap-8 md:flex-row md:items-end pb-12 sm:pb-16 border-b border-white/10">
             <div>
-              <span className="eyebrow-label text-limestone block mb-3 text-xs font-grotesk tracking-widest uppercase">
-                STUDIO DISPATCH · READY FOR ENGAGEMENT
+              <span className="text-stone-400 block mb-3 text-[10.5px] font-mono font-medium tracking-[0.18em] uppercase">
+                STUDIO ARCHIVE · PRODUCT &amp; UI/UX DESIGN
               </span>
-              <h2 className="text-[32px] sm:text-[40px] lg:text-[44px] font-light leading-[1.1] tracking-[-0.025em] text-parchment font-saans">
+              <h2 className="text-[30px] sm:text-[38px] lg:text-[44px] font-bold leading-[1.12] tracking-[-0.03em] text-white font-saans">
                 Let&apos;s build something <br />
-                <span className="text-ash-text">with precision and scale.</span>
+                <span className="text-stone-400 font-light">enduring, tactile, and scaled.</span>
               </h2>
             </div>
 
-            <Magnetic strength={0.2} className="shrink-0">
+            <Magnetic strength={0.16} className="shrink-0">
               <a
                 href="mailto:jenishlogesh@gmail.com"
-                className="group btn-pill-filled text-sm !py-3 !px-7 inline-flex items-center gap-2"
+                className="group bg-stone-100 hover:bg-white text-stone-950 text-[13.5px] font-bold min-h-[46px] px-7 py-3 rounded-full inline-flex items-center gap-2.5 shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_28px_rgba(255,255,255,0.25)] transition-all cursor-pointer"
               >
-                <span>Start Conversation</span>
+                <span>Initiate Conversation</span>
                 <span className="inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
               </a>
             </Magnetic>
@@ -39,12 +39,12 @@ export default function Footer() {
         {/* Links & Micro-copy Grid */}
         <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-light text-parchment font-saans">
+            <span className="text-sm font-bold text-white font-saans">
               {personalInfo.name}
             </span>
-            <span className="text-charcoal-rim" aria-hidden="true">|</span>
-            <span className="text-xs font-grotesk text-ash-text">
-              {personalInfo.location}
+            <span className="text-stone-600" aria-hidden="true">|</span>
+            <span className="text-xs font-mono text-stone-400 font-normal">
+              Product &amp; UI/UX Designer
             </span>
           </div>
 
@@ -53,24 +53,24 @@ export default function Footer() {
             <nav aria-label="Footer navigation">
               <ul className="flex items-center gap-5 sm:gap-6" role="list">
                 <li>
-                  <a href="#projects" className="text-xs font-grotesk text-fog-text hover:text-parchment transition-colors">
+                  <a href="#projects" className="text-xs font-grotesk text-stone-300 hover:text-white font-medium transition-colors">
                     Works
                   </a>
                 </li>
                 <li>
-                  <a href="#about" className="text-xs font-grotesk text-fog-text hover:text-parchment transition-colors">
+                  <a href="#about" className="text-xs font-grotesk text-stone-300 hover:text-white font-medium transition-colors">
                     About
                   </a>
                 </li>
                 <li>
-                  <a href="#contact" className="text-xs font-grotesk text-fog-text hover:text-parchment transition-colors">
+                  <a href="#contact" className="text-xs font-grotesk text-stone-300 hover:text-white font-medium transition-colors">
                     Contact
                   </a>
                 </li>
               </ul>
             </nav>
 
-            <span className="text-charcoal-rim hidden sm:inline" aria-hidden="true">/</span>
+            <span className="text-stone-600 hidden sm:inline" aria-hidden="true">/</span>
 
             {/* Social Links */}
             <nav aria-label="Social links">
@@ -81,7 +81,7 @@ export default function Footer() {
                       href={link.href}
                       target={link.isExternal ? "_blank" : undefined}
                       rel={link.isExternal ? "noopener noreferrer" : undefined}
-                      className="text-xs font-grotesk text-fog-text transition-colors duration-150 hover:text-parchment"
+                      className="text-xs font-grotesk text-stone-300 transition-colors duration-150 hover:text-white font-medium"
                     >
                       {link.label}
                     </a>
@@ -93,7 +93,7 @@ export default function Footer() {
 
           {/* Copyright Metadata */}
           <div className="flex flex-col items-start md:items-end gap-1">
-            <p className="text-xs font-grotesk text-ash-text" suppressHydrationWarning>
+            <p className="text-[11.5px] font-mono text-stone-400 font-normal" suppressHydrationWarning>
               &copy; {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
             </p>
           </div>

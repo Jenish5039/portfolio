@@ -1,141 +1,231 @@
 "use client";
 
+import React, { useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
-import Magnetic from "@/components/ui/Magnetic";
-import CelestialSphereCanvas from "@/components/ui/CelestialSphereCanvas";
 
 export default function Hero() {
   const { scrollTo } = useSmoothScroll();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const prevXRef = useRef<number | null>(null);
+  const targetTimeRef = useRef<number>(0);
+  const isSeekingRef = useRef<boolean>(false);
+
+  // Video seeking logic with seek-flooding prevention
+  const seekVideo = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || !video.duration || Number.isNaN(video.duration)) return;
+    if (isSeekingRef.current) return;
+
+    if (Math.abs(video.currentTime - targetTimeRef.current) > 0.005) {
+      isSeekingRef.current = true;
+      video.currentTime = targetTimeRef.current;
+    }
+  }, []);
+
+  const handleSeeked = () => {
+    isSeekingRef.current = false;
+    const video = videoRef.current;
+    if (!video || !video.duration || Number.isNaN(video.duration)) return;
+
+    if (Math.abs(video.currentTime - targetTimeRef.current) > 0.005) {
+      isSeekingRef.current = true;
+      video.currentTime = targetTimeRef.current;
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    const video = videoRef.current;
+    if (video) {
+      targetTimeRef.current = 0.05;
+      video.currentTime = 0.05;
+    }
+  };
+
+  // Prime initial frame on load and keep paused
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const primeFrame = () => {
+      video.pause();
+      if (video.duration && video.currentTime === 0) {
+        video.currentTime = 0.05;
+      }
+    };
+
+    video.addEventListener("loadeddata", primeFrame);
+    video.addEventListener("canplay", primeFrame);
+    if (video.readyState >= 2) {
+      primeFrame();
+    }
+
+    return () => {
+      video.removeEventListener("loadeddata", primeFrame);
+      video.removeEventListener("canplay", primeFrame);
+    };
+  }, []);
+
+  // Desktop cursor scrub listener (strictly runs on mousemove without touching scroll)
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const video = videoRef.current;
+      if (!video || !video.duration || Number.isNaN(video.duration)) {
+        prevXRef.current = e.clientX;
+        return;
+      }
+
+      if (prevXRef.current === null) {
+        prevXRef.current = e.clientX;
+        return;
+      }
+
+      const currentX = e.clientX;
+      const delta = currentX - prevXRef.current;
+      prevXRef.current = currentX;
+
+      const SENSITIVITY = 0.8;
+      const timeOffset = (delta / window.innerWidth) * SENSITIVITY * video.duration;
+      const newTarget = Math.max(0, Math.min(video.duration, targetTimeRef.current + timeOffset));
+      targetTimeRef.current = newTarget;
+
+      seekVideo();
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [seekVideo]);
 
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-[#0e0e0d] min-h-screen flex items-center justify-center section-padding pt-24 pb-16"
-      aria-label="Hero introduction"
+      className="relative min-h-[100svh] w-full flex flex-col justify-between overflow-hidden bg-black text-white select-none px-4 sm:px-8 lg:px-16 pt-20 sm:pt-24 pb-6 sm:pb-8"
+      aria-label="Hero section introducing Jeme"
     >
-      {/* Layer 0: Warm Studio Ambient Spotlight on the Right */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 overflow-hidden"
-        aria-hidden="true"
+      {/* ── 01. BACKGROUND VIDEO (LIGHTWEIGHT WEBM FIRST, TOUCH/MOUSE SCRUB) ── */}
+      <video
+        ref={videoRef}
+        poster="/Herosec_poster.webp"
+        muted
+        playsInline
+        preload="metadata"
+        onSeeked={handleSeeked}
+        onLoadedMetadata={handleLoadedMetadata}
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
+        style={{ objectPosition: "70% center" }}
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_80%_at_70%_48%,rgba(70,58,45,0.48)_0%,rgba(36,30,24,0.28)_45%,rgba(14,14,13,0.95)_80%)]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0e0e0d] via-transparent to-[#0e0e0d]/50" />
-      </div>
+        <source src="/Herosec.webm" type="video/webm" />
+        <source src="/Herosec.mp4" type="video/mp4" />
+      </video>
 
-      {/* Layer 1: Main 2-Column Composition */}
-      <div className="relative z-10 w-full max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-[calc(100vh-140px)]">
-        
-        {/* Left Column: Editorial Headline, Identity & CTAs (6 cols) */}
-        <div className="lg:col-span-6 flex flex-col items-start text-left justify-center pt-8 lg:pt-0">
+      {/* Atmospheric Contrast Gradient — soft and seamless into warm obsidian */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#080707]/90 via-[#080707]/50 to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#080707] via-[#080707]/60 to-transparent pointer-events-none z-0" />
+
+      {/* ── 02. MINIMAL HERO CONTENT ── */}
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto flex-1 flex flex-col justify-center my-auto py-6 sm:py-8">
+        <div className="max-w-xl flex flex-col items-start text-left">
           
-          {/* Majestic High-Contrast Display Name */}
+          {/* Eyebrow */}
           <motion.div
-            className="relative"
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center gap-2 text-[11px] font-mono tracking-[0.2em] text-stone-400 uppercase mb-3 sm:mb-4"
           >
-            <h1 className="font-serif-display text-[clamp(72px,10.2vw,144px)] font-normal leading-[0.90] tracking-[-0.015em] text-[#f7f6f0] select-none">
-              JENISH
-            </h1>
+            <span className="h-1.5 w-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]" />
+            <span>JEME · PRODUCT &amp; UI/UX DESIGNER</span>
           </motion.div>
 
-          {/* Subtitle */}
-          <motion.h2
-            className="font-saans text-[clamp(22px,2.6vw,36px)] font-light leading-[1.18] text-[#a4a29a] mt-4 sm:mt-5 tracking-[-0.02em]"
-            initial={{ opacity: 0, y: 12 }}
+          {/* Simple, Bold Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="text-[clamp(28px,5vw,56px)] font-saans font-bold tracking-tight text-white leading-[1.1]"
           >
-            Product &amp; UI/UX Designer
-          </motion.h2>
+            Designing systems that endure. <br />
+            <span className="font-serif italic font-normal text-stone-300">
+              Crafting products people feel.
+            </span>
+          </motion.h1>
 
-          {/* Narrative Description */}
+          {/* Concise Narrative */}
           <motion.p
-            className="font-saans text-[15.5px] sm:text-[16.5px] text-[#8e8c84] font-light leading-[1.78] max-w-lg mt-6"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mt-3 sm:mt-4 text-[clamp(14px,1.1vw,16.5px)] text-stone-300 font-normal leading-relaxed max-w-lg"
           >
-            Crafting intuitive digital products, UX research frameworks, and
-            scalable Figma design systems — powered by AI-accelerated frontend
-            engineering in React and Next.js.
+            Product &amp; UI/UX Designer translating ambiguous problem spaces into intuitive digital systems, multi-tier Figma architectures, and tactile frontend interfaces.
           </motion.p>
 
-          {/* Action CTAs: Solid White Pill & Ghost Pill */}
+          {/* Minimal, Focused Action Bar */}
           <motion.div
-            className="flex flex-wrap items-center gap-4 mt-9 sm:mt-11"
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-5 sm:mt-7 flex flex-wrap items-center gap-2.5 sm:gap-3"
           >
-            <Magnetic strength={0.15}>
-              <a
-                href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo("projects");
-                }}
-                className="group bg-[#e8e7e0] hover:bg-white text-[#121212] font-medium !py-3 !px-7 text-[13.5px] rounded-full inline-flex items-center gap-2 transition-all shadow-[0_4px_20px_rgba(255,255,255,0.08)] hover:shadow-[0_6px_28px_rgba(255,255,255,0.18)] cursor-pointer"
+            <button
+              onClick={() => scrollTo("projects")}
+              className="group inline-flex items-center justify-center gap-2 h-11 px-5 sm:px-6 rounded-full bg-stone-100 hover:bg-white text-stone-950 font-saans font-semibold text-xs sm:text-[13.5px] transition-all shadow-[0_4px_20px_rgba(255,255,255,0.12)] hover:shadow-[0_4px_28px_rgba(255,255,255,0.24)] cursor-pointer"
+            >
+              <span>Explore Selected Works</span>
+              <span
+                className="inline-block transition-transform duration-200 group-hover:translate-y-0.5 text-xs font-bold"
+                aria-hidden="true"
               >
-                <span>View Selected Works</span>
-                <span
-                  className="inline-block transition-transform duration-200 group-hover:translate-x-1"
-                  aria-hidden="true"
-                >
-                  &rarr;
-                </span>
-              </a>
-            </Magnetic>
+                &darr;
+              </span>
+            </button>
 
-            <Magnetic strength={0.15}>
-              <a
-                href="/Resume/jenish-cv.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group bg-transparent hover:bg-white/5 text-[#e6e5dd] border border-white/15 hover:border-white/40 !py-3 !px-6 text-[13.5px] font-normal rounded-full inline-flex items-center gap-2 transition-all"
-                aria-label="View Resume (opens PDF in a new tab)"
-              >
-                <span>Resume</span>
-                <span
-                  className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[11.5px] opacity-80"
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
-              </a>
-            </Magnetic>
+            <a
+              href="/Resume/jenish-cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 h-11 px-5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-stone-300 hover:text-white border border-white/[0.12] hover:border-white/25 font-saans font-medium text-[13.5px] transition-all backdrop-blur-md cursor-pointer"
+              aria-label="View Resume (opens PDF in a new tab)"
+            >
+              <span>Resume / CV</span>
+              <span className="text-xs opacity-70" aria-hidden="true">↗</span>
+            </a>
           </motion.div>
 
         </div>
-
-        {/* Right Column: 3D Celestial Saturn Sphere & Tilted Ring System (6 cols) */}
-        <motion.div
-          className="lg:col-span-6 w-full h-[460px] sm:h-[540px] lg:h-[620px] relative flex items-center justify-center overflow-visible"
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <CelestialSphereCanvas />
-        </motion.div>
-
       </div>
 
-      {/* Bottom-Left Ambient "SCROLL" Indicator */}
+      {/* ── 03. BOTTOM STORYLINE PROMPT ── */}
       <motion.div
-        className="absolute bottom-8 left-8 sm:left-14 hidden sm:flex flex-col items-center gap-2.5 text-[10.5px] tracking-[0.28em] font-grotesk text-[#76756e] uppercase select-none pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="relative z-10 w-full max-w-[1200px] mx-auto pt-4 border-t border-white/[0.08] flex items-center justify-between text-[11px] font-mono text-slate-400"
       >
-        <span>SCROLL</span>
-        <div className="flex flex-col items-center gap-1">
-          <span className="h-6 w-px bg-white/20" />
-          <span className="h-1.5 w-1.5 rounded-full bg-white/40 shadow-[0_0_6px_rgba(255,255,255,0.4)]" />
+        <div className="flex items-center gap-2">
+          <span className="text-slate-200 font-semibold">01</span>
+          <span className="text-white/20">/</span>
+          <span>SELECTED WORKS</span>
         </div>
-      </motion.div>
 
+        <button
+          onClick={() => scrollTo("projects")}
+          className="group inline-flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          aria-label="Scroll to explore selected work"
+        >
+          <span className="tracking-[0.14em] uppercase text-[10px]">
+            Scroll to explore
+          </span>
+          <span className="inline-block transition-transform duration-200 group-hover:translate-y-0.5 text-slate-300">
+            &darr;
+          </span>
+        </button>
+
+        <span className="hidden sm:inline text-slate-500">2 CASE STUDIES</span>
+      </motion.div>
     </section>
   );
 }

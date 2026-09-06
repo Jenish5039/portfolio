@@ -1,168 +1,367 @@
+"use client";
+
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
 import type { Project } from "@/data/portfolio";
-import SpotlightCard from "@/components/ui/SpotlightCard";
 import Magnetic from "@/components/ui/Magnetic";
 
 interface ProjectCardProps {
   project: Project;
   index: number;
+  viewMode?: "grid" | "editorial";
 }
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+export default function ProjectCard({
+  project,
+  index,
+  viewMode = "grid",
+}: ProjectCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   const isReversed = index % 2 === 1;
 
-  const imageContent = project.image ? (
-    <div className="relative flex flex-col h-full min-h-[320px] sm:min-h-[400px] lg:min-h-[460px] w-full overflow-hidden rounded-[8px] border border-charcoal-rim bg-void-black transition-all duration-300 group-hover:border-parchment/40">
-      {/* Window Top Chrome Bar */}
-      <div className="flex items-center justify-between border-b border-charcoal-rim px-4 py-2.5 bg-[#121212] select-none">
-        <div className="flex items-center gap-1.5">
-          <span className="h-2 w-2 rounded-full bg-charcoal-rim transition-colors group-hover:bg-copper-wire/60" />
-          <span className="h-2 w-2 rounded-full bg-charcoal-rim" />
-          <span className="h-2 w-2 rounded-full bg-charcoal-rim" />
-        </div>
-        <span className="text-xs font-grotesk text-ash-text tracking-wide group-hover:text-fog-text transition-colors">
-          {project.id === "georythum" ? "georythum.internal-platform" : "galo.vault-application"}
-        </span>
-      </div>
+  // Direct linear GPU parallax (zero spring physics solver overhead during scroll)
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  });
 
-      {/* Screen Container with Micro-zoom */}
-      <div className="relative flex-1 w-full min-h-[280px] overflow-hidden bg-void-black">
-        <Image
-          src={project.image}
-          alt={`${project.title} Preview`}
-          fill
-          priority={index === 0}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 700px"
-          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.025]"
-          quality={80}
-        />
-      </div>
-    </div>
-  ) : (
-    <div
-      className="h-full min-h-[320px] sm:min-h-[400px] lg:min-h-[460px] w-full rounded-[8px] border border-charcoal-rim"
-      style={{ background: project.gradient }}
-    />
-  );
+  const imageParallax = useTransform(scrollYProgress, [0, 1], [10, -10]);
 
-  return (
-    <SpotlightCard
-      id={`project-${project.id}`}
-      className="card-raised p-8 sm:p-12 lg:p-14 transition-all duration-300"
-    >
-      <div className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center ${
-        isReversed ? "lg:grid-flow-dense" : ""
-      }`}>
-        
-        {/* Editorial Text Content Column (5 cols) */}
-        <div className={`lg:col-span-5 flex flex-col justify-between h-full gap-7 ${
-          isReversed ? "lg:col-start-8" : ""
-        }`}>
+  const browserUrl =
+    project.id === "georythum"
+      ? "georythum.org/editorial"
+      : "galo.app/secure-vault";
+
+  /* -------------------------------------------------------------
+     01. COMPACT GRID VIEW (Default — Proportional & Balanced)
+     ------------------------------------------------------------- */
+  if (viewMode === "grid") {
+    return (
+      <div
+        ref={cardRef}
+        className="w-full h-full flex"
+      >
+        <div
+          id={`project-grid-${project.id}`}
+          className="card-raised p-5 sm:p-6 lg:p-7 transition-all duration-300 relative overflow-hidden flex flex-col justify-between w-full h-full group"
+        >
+          {/* Subtle Ambient Accent Glow */}
+          <div
+            className="absolute -top-24 -right-24 w-72 h-72 rounded-full opacity-15 blur-3xl pointer-events-none"
+            style={{ background: project.accentGlow }}
+          />
+
           <div>
-            {/* Top Metadata Header */}
-            <div className="flex items-center justify-between border-b border-charcoal-rim pb-3.5 mb-5">
-              <span className="eyebrow-label text-limestone font-grotesk text-xs uppercase tracking-wider">
-                {`CASE ${String(index + 1).padStart(2, "0")}`}
-              </span>
-              <span className="text-xs font-grotesk text-ash-text uppercase tracking-wider">
-                PRODUCTION
-              </span>
+            {/* Header: Project Index, Duration, and Role */}
+            <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-3.5 mb-4">
+              <div className="flex items-center gap-2">
+                <span
+                  className="text-[10px] font-mono font-bold tracking-[0.16em] uppercase px-2.5 py-0.5 rounded-full border border-white/[0.12] bg-white/[0.04] backdrop-blur-md"
+                  style={{ color: project.accent }}
+                >
+                  {`0${index + 1} · ${project.category === "web" ? "EDITORIAL" : "MOBILE"}`}
+                </span>
+                <span className="text-[11px] font-mono text-stone-400 hidden sm:inline">
+                  {project.duration}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{
+                    backgroundColor: project.accent,
+                    boxShadow: `0 0 8px ${project.accent}`,
+                  }}
+                />
+                <span className="text-[11px] font-grotesk text-stone-300 font-medium">
+                  {project.role}
+                </span>
+              </div>
             </div>
 
-            {/* Tags Row with Micro-hover */}
-            <div className="mb-4 flex flex-wrap gap-1.5">
-              {project.tags.map((tag) => (
+            {/* Title & Subtitle */}
+            <div className="mb-3.5">
+              <h3 className="text-[20px] sm:text-[23px] font-bold text-white font-saans tracking-[-0.03em] leading-tight group-hover:text-stone-100 transition-colors">
+                {project.title}
+              </h3>
+              <p className="text-xs sm:text-[13px] text-stone-400 font-saans mt-1 line-clamp-1">
+                {project.subtitle}
+              </p>
+            </div>
+
+            {/* Visual Hardware / Browser Mockup Display */}
+            <div className="relative w-full rounded-xl overflow-hidden border border-white/10 bg-[#120e0d]/90 backdrop-blur-md shadow-[0_12px_32px_rgba(0,0,0,0.7)] mb-4">
+              {/* Hardware Top Chrome Bar */}
+              <div className="flex items-center justify-between border-b border-white/[0.08] px-3.5 py-2 bg-[#161211]/95 select-none relative z-10">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-[#ff5f56]/80" />
+                  <span className="h-2 w-2 rounded-full bg-[#ffbd2e]/80" />
+                  <span className="h-2 w-2 rounded-full bg-[#27c93f]/80" />
+                </div>
+
+                <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10px] font-mono text-stone-300 tracking-tight">
+                  <span className="text-[8px] opacity-70">🔒</span>
+                  <span className="truncate max-w-[150px] sm:max-w-none">{browserUrl}</span>
+                </div>
+
+                <span className="text-[9px] font-mono text-stone-400 uppercase tracking-wider font-semibold">
+                  {project.tags[0]}
+                </span>
+              </div>
+
+              {/* Clickable Image Container */}
+              <Link
+                href={project.href || "#"}
+                className="block relative w-full aspect-[16/10] overflow-hidden bg-stone-950 cursor-pointer"
+                aria-label={`Explore ${project.title} Case Study`}
+              >
+                <motion.div
+                  style={{ y: shouldReduceMotion ? 0 : imageParallax }}
+                  className="absolute inset-0 w-full h-[112%] -top-[6%]"
+                >
+                  <Image
+                    src={project.image || ""}
+                    alt={`${project.title} Product Presentation`}
+                    fill
+                    priority={index === 0}
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                    quality={85}
+                  />
+                </motion.div>
+
+                {/* Glass Specular Overlay */}
+                <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none z-10" />
+
+                {/* Hover Badge */}
+                <div className="absolute bottom-3 right-3 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181312]/95 backdrop-blur-xl border border-white/20 text-white font-grotesk text-[11px] font-bold shadow-lg">
+                    <span>Inspect</span>
+                    <span style={{ color: project.accent }}>&rarr;</span>
+                  </span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Narrative Description */}
+            <p className="text-[13px] sm:text-[13.5px] font-saans text-stone-300 leading-relaxed line-clamp-2 mb-4">
+              {project.description}
+            </p>
+
+            {/* Compact System Metrics Micro-Grid */}
+            <div className="grid grid-cols-3 gap-2 pt-3.5 border-t border-white/[0.08] mb-4">
+              {project.stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="p-2 sm:p-2.5 rounded-lg bg-white/[0.025] border border-white/[0.06] flex flex-col justify-between transition-colors hover:bg-white/[0.05]"
+                >
+                  <span className="text-xs sm:text-[13px] font-bold text-white font-saans tracking-tight leading-tight truncate">
+                    {stat.value}
+                  </span>
+                  <span
+                    className="text-[9px] font-mono uppercase tracking-wider mt-1 truncate font-semibold"
+                    style={{ color: project.accent }}
+                  >
+                    {stat.label.split(" ")[0]}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer: Tags & CTA */}
+          <div className="pt-3.5 border-t border-white/[0.08] flex items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {project.tags.slice(0, 2).map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-tag border border-charcoal-rim bg-void-black px-2.5 py-1 text-xs font-grotesk text-fog-text tracking-wide transition-all duration-200 hover:border-parchment/30 hover:text-parchment cursor-default select-none"
+                  className="text-[10px] font-grotesk font-medium text-stone-300 px-2 py-0.5 rounded-full bg-white/[0.03] border border-white/[0.06]"
                 >
                   {tag}
                 </span>
               ))}
             </div>
 
-            {/* Display Title & Subtitle */}
-            <h3 className="text-[26px] sm:text-[32px] font-light leading-[1.12] tracking-[-0.02em] text-parchment font-saans">
-              {project.title}
-            </h3>
-            <p className="mt-1.5 text-[13px] text-ash-text font-grotesk">
-              {project.subtitle}
-            </p>
-
-            {/* Narrative Description */}
-            <p className="mt-4 text-[15px] leading-[1.65] text-fog-text font-saans font-w380">
-              {project.description}
-            </p>
-
-            {/* Key Deliverables & Highlights */}
-            <div className="mt-6 border-t border-charcoal-rim pt-4">
-              <span className="eyebrow-label block mb-3 text-limestone text-xs font-grotesk uppercase tracking-wider">
-                KEY DELIVERABLES
-              </span>
-              <ul className="space-y-2">
-                {project.highlights.map((highlight) => (
-                  <li
-                    key={highlight}
-                    className="flex items-start gap-2.5 text-[13.5px] text-parchment/90 font-saans leading-relaxed"
-                  >
-                    <span className="text-copper-wire/80 shrink-0 mt-0.5">&bull;</span>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Action CTAs: Binary Button Grammar with Magnetic physics */}
-          <div className="flex flex-wrap items-center gap-3 pt-5 border-t border-charcoal-rim">
             {project.href && (
-              <Magnetic strength={0.15}>
+              <Magnetic strength={0.14}>
                 <Link
                   href={project.href}
-                  className="group btn-pill-filled !py-2 !px-5 text-sm inline-flex items-center gap-2"
+                  className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-stone-100 hover:bg-white text-stone-950 text-xs font-bold font-saans shadow-sm hover:shadow-[0_0_16px_rgba(255,255,255,0.22)] transition-all cursor-pointer"
                 >
-                  <span>Read Case Study</span>
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+                  <span>Case Study</span>
+                  <span
+                    className="inline-block transition-transform duration-150 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  >
+                    &rarr;
+                  </span>
                 </Link>
               </Magnetic>
             )}
-            {project.prototypeHref && (
-              <Magnetic strength={0.15}>
-                <a
-                  href={project.prototypeHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group btn-square-ghost !py-2 !px-4 text-xs font-grotesk inline-flex items-center gap-1.5"
-                >
-                  <span>Prototype</span>
-                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true">↗</span>
-                </a>
-              </Magnetic>
-            )}
           </div>
         </div>
-
-        {/* Visual Preview Column (7 cols) */}
-        <div className={`lg:col-span-7 ${
-          isReversed ? "lg:col-start-1" : ""
-        }`}>
-          {project.href ? (
-            <Link
-              href={project.href}
-              className="group block overflow-hidden rounded-[8px]"
-              aria-label={`View ${project.title} Case Study`}
-            >
-              {imageContent}
-            </Link>
-          ) : (
-            <div className="group block overflow-hidden rounded-[8px]">
-              {imageContent}
-            </div>
-          )}
-        </div>
-
       </div>
-    </SpotlightCard>
+    );
+  }
+
+  /* -------------------------------------------------------------
+     02. EDITORIAL VIEW (Horizontal Split — Balanced & Magazine Style)
+     ------------------------------------------------------------- */
+  return (
+    <div
+      ref={cardRef}
+      className="w-full"
+    >
+      <div
+        id={`project-editorial-${project.id}`}
+        className="card-raised p-6 sm:p-8 lg:p-9 transition-all duration-300 relative overflow-hidden group"
+      >
+        {/* Ambient Color Illumination */}
+        <div
+          className="absolute -top-32 -right-32 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
+          style={{ background: project.accentGlow }}
+        />
+
+        <div
+          className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center ${
+            isReversed ? "lg:grid-flow-dense" : ""
+          }`}
+        >
+          {/* Narrative & Details Column (5 cols) */}
+          <div
+            className={`lg:col-span-5 flex flex-col justify-between h-full gap-5 ${
+              isReversed ? "lg:col-start-8" : ""
+            }`}
+          >
+            <div>
+              {/* Header: Identity & Role */}
+              <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-3 mb-4">
+                <span
+                  className="text-[10.5px] font-mono font-medium tracking-[0.16em] uppercase px-2.5 py-0.5 rounded-full border border-white/[0.12] bg-white/[0.04] backdrop-blur-md"
+                  style={{ color: project.accent }}
+                >
+                  {`0${index + 1} / ${project.category === "web" ? "EDITORIAL PLATFORM" : "MOBILE SYSTEMS"}`}
+                </span>
+                <span className="text-xs font-grotesk text-stone-400 font-medium">
+                  {project.duration}
+                </span>
+              </div>
+
+              {/* Title & Subtitle */}
+              <div className="mb-3">
+                <h3 className="text-[24px] sm:text-[28px] font-bold text-white font-saans tracking-[-0.03em] leading-tight">
+                  {project.title}
+                </h3>
+                <p className="text-sm font-saans text-stone-400 mt-1">
+                  {project.subtitle}
+                </p>
+              </div>
+
+              {/* Narrative Description */}
+              <p className="text-[13.5px] sm:text-[14px] font-saans text-stone-300 leading-relaxed mb-4">
+                {project.description}
+              </p>
+
+              {/* System Metrics Strip */}
+              <div className="grid grid-cols-3 gap-2.5 pt-3.5 border-t border-white/[0.08] mb-4">
+                {project.stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="p-2.5 rounded-lg bg-white/[0.025] border border-white/[0.06] flex flex-col justify-between"
+                  >
+                    <span className="text-[13.5px] font-bold text-white font-saans tracking-tight truncate">
+                      {stat.value}
+                    </span>
+                    <span
+                      className="text-[9.5px] font-mono uppercase tracking-wider mt-1 truncate font-medium"
+                      style={{ color: project.accent }}
+                    >
+                      {stat.label.split(" ")[0]}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Action Bar */}
+            <div className="pt-3.5 border-t border-white/[0.08] flex items-center justify-between gap-3">
+              <div className="flex flex-wrap items-center gap-1.5">
+                {project.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[10.5px] font-grotesk font-medium text-stone-300 px-2.5 py-0.5 rounded-full bg-white/[0.03] border border-white/[0.06]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {project.href && (
+                <Magnetic strength={0.15}>
+                  <Link
+                    href={project.href}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-100 hover:bg-white text-stone-950 text-xs font-bold font-saans shadow-sm hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all cursor-pointer"
+                  >
+                    <span>Read Deep Dive</span>
+                    <span aria-hidden="true">&rarr;</span>
+                  </Link>
+                </Magnetic>
+              )}
+            </div>
+          </div>
+
+          {/* Visual Showcase Column (7 cols) */}
+          <div className={`lg:col-span-7 ${isReversed ? "lg:col-start-1" : ""}`}>
+            <div className="relative w-full rounded-xl overflow-hidden border border-white/10 bg-[#120e0d]/90 backdrop-blur-md shadow-2xl">
+              {/* Chrome bar */}
+              <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-2.5 bg-[#161211]/95 select-none relative z-10">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-[#ff5f56]" />
+                  <span className="h-2 w-2 rounded-full bg-[#ffbd2e]" />
+                  <span className="h-2 w-2 rounded-full bg-[#27c93f]" />
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10.5px] font-mono text-stone-300">
+                  <span className="text-[9px]">🔒</span>
+                  <span>{browserUrl}</span>
+                </div>
+                <span className="text-[10px] font-mono text-stone-400 uppercase font-semibold">
+                  {project.tags[0]}
+                </span>
+              </div>
+
+              <Link
+                href={project.href || "#"}
+                className="block relative w-full h-[240px] sm:h-[300px] lg:h-[340px] overflow-hidden bg-stone-950 cursor-pointer"
+                aria-label={`Explore ${project.title} Case Study`}
+              >
+                <motion.div
+                  style={{ y: shouldReduceMotion ? 0 : imageParallax }}
+                  className="absolute inset-0 w-full h-[115%] -top-[7.5%]"
+                >
+                  <Image
+                    src={project.image || ""}
+                    alt={`${project.title} Product Presentation`}
+                    fill
+                    sizes="(max-width: 1240px) 100vw, 700px"
+                    className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.025]"
+                    quality={85}
+                  />
+                </motion.div>
+                <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none z-10" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

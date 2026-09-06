@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   images: {
-    qualities: [60, 75, 80, 85],
+    qualities: [60, 75, 80, 85, 90, 92],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,
   },

@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Geist_Mono, PT_Serif, Cormorant_Garamond } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans, Space_Grotesk, Geist_Mono, PT_Serif, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-saans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -20,7 +20,7 @@ const spaceGrotesk = Space_Grotesk({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
@@ -35,40 +35,48 @@ const ptSerif = PT_Serif({
 const cormorant = Cormorant_Garamond({
   variable: "--font-serif-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "600"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  themeColor: "#080707",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://jenish.design"),
   title: {
-    default: "Jeme — Product & UI/UX Designer | AI-Accelerated Frontend",
+    default: "Jeme — Product & UI/UX Designer",
     template: "%s | Jeme",
   },
   description:
-    "Portfolio of Jeme, a Product & UI/UX Designer crafting user-centered digital experiences, Figma design systems, and AI-accelerated frontend interfaces.",
+    "Portfolio of Jeme, a Product & UI/UX Designer crafting research-driven digital products, scalable Figma design systems, and tactile frontend interfaces.",
   keywords: [
     "Product Designer",
     "UI/UX Designer",
     "UX Researcher",
-    "Figma Design Systems",
-    "AI Frontend Developer",
+    "Design Systems Architect",
+    "Information Architecture",
+    "Interaction Design",
+    "Figma Variables",
     "Jeme",
-    "UX Portfolio",
-    "Design Systems",
-    "React",
+    "Product Design Portfolio",
     "Next.js",
   ],
   authors: [{ name: "Jeme" }],
   creator: "Jeme",
   openGraph: {
-    title: "Jeme — Product & UI/UX Designer | AI-Accelerated Frontend",
+    title: "Jeme — Product & UI/UX Designer",
     description:
-      "Crafting intuitive digital products, UX research frameworks, and scalable Figma design systems with AI-driven frontend execution.",
+      "Crafting intuitive digital products, UX research frameworks, and scalable Figma design systems with high-fidelity frontend execution.",
     type: "website",
     locale: "en_US",
     url: "https://jenish.design",
-    siteName: "JeMe Designs",
+    siteName: "Jeme Design Studio",
     images: [
       {
         url: "/georythum-preview.webp",
@@ -80,9 +88,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jeme — Product & UI/UX Designer | AI-Accelerated Frontend",
+    title: "Jeme — Product & UI/UX Designer",
     description:
-      "Crafting intuitive digital products, UX research frameworks, and scalable Figma design systems with AI-driven frontend execution.",
+      "Crafting intuitive digital products, UX research frameworks, and scalable Figma design systems with high-fidelity frontend execution.",
     creator: "@jenishm",
     images: ["/georythum-preview.webp"],
   },
@@ -100,11 +108,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable} ${ptSerif.variable} ${cormorant.variable}`}
+      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${geistMono.variable} ${ptSerif.variable} ${cormorant.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
-      <body className="bg-obsidian-canvas text-parchment antialiased font-saans" suppressHydrationWarning>
+      <body className="bg-canvas text-text-primary antialiased font-saans selection:bg-rose-500/30 selection:text-white" suppressHydrationWarning>
         <script
           dangerouslySetInnerHTML={{
             __html: `if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);`,
