@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,350 +15,312 @@ import Magnetic from "@/components/ui/Magnetic";
 interface ProjectCardProps {
   project: Project;
   index: number;
-  viewMode?: "grid" | "editorial";
 }
 
 export default function ProjectCard({
   project,
   index,
-  viewMode = "grid",
 }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const mediaContainerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const isReversed = index % 2 === 1;
 
-  // Direct linear GPU parallax (zero spring physics solver overhead during scroll)
+  // Video lazy-loading and playback states
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(
+    () => typeof window !== "undefined" && !("IntersectionObserver" in window)
+  );
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const hasLeftViewRef = useRef(false);
+  const isCurrentlyInViewRef = useRef(false);
+
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ["start end", "end start"],
   });
 
-  const imageParallax = useTransform(scrollYProgress, [0, 1], [10, -10]);
+  const imageParallax = useTransform(scrollYProgress, [0, 1], [8, -8]);
 
-  const browserUrl =
-    project.id === "georythum"
-      ? "georythum.org/editorial"
-      : "galo.app/secure-vault";
+  // Phase 1: Zero-impact lazy loading.
+  // Only mount/load video sources when the card approaches the viewport (350px margin).
+  // Initial page load remains 100% instant and uncontested.
+  useEffect(() => {
+    if (!project.video || shouldReduceMotion) return;
 
-  /* -------------------------------------------------------------
-     01. COMPACT GRID VIEW (Default — Proportional & Balanced)
-     ------------------------------------------------------------- */
-  if (viewMode === "grid") {
-    return (
-      <div
-        ref={cardRef}
-        className="w-full h-full flex"
-      >
-        <div
-          id={`project-grid-${project.id}`}
-          className="card-raised p-5 sm:p-6 lg:p-7 transition-all duration-300 relative overflow-hidden flex flex-col justify-between w-full h-full group"
-        >
-          {/* Subtle Ambient Accent Glow */}
-          <div
-            className="absolute -top-24 -right-24 w-72 h-72 rounded-full opacity-15 blur-3xl pointer-events-none"
-            style={{ background: project.accentGlow }}
-          />
+    const el = mediaContainerRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
 
-          <div>
-            {/* Header: Project Index, Duration, and Role */}
-            <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-3.5 mb-4">
-              <div className="flex items-center gap-2">
-                <span
-                  className="text-[10px] font-mono font-bold tracking-[0.16em] uppercase px-2.5 py-0.5 rounded-full border border-white/[0.12] bg-white/[0.04] backdrop-blur-md"
-                  style={{ color: project.accent }}
-                >
-                  {`0${index + 1} · ${project.category === "web" ? "EDITORIAL" : "MOBILE"}`}
-                </span>
-                <span className="text-[11px] font-mono text-stone-400 hidden sm:inline">
-                  {project.duration}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                <span
-                  className="h-1.5 w-1.5 rounded-full"
-                  style={{
-                    backgroundColor: project.accent,
-                    boxShadow: `0 0 8px ${project.accent}`,
-                  }}
-                />
-                <span className="text-[11px] font-grotesk text-stone-300 font-medium">
-                  {project.role}
-                </span>
-              </div>
-            </div>
-
-            {/* Title & Subtitle */}
-            <div className="mb-3.5">
-              <h3 className="text-[20px] sm:text-[23px] font-bold text-white font-saans tracking-[-0.03em] leading-tight group-hover:text-stone-100 transition-colors">
-                {project.title}
-              </h3>
-              <p className="text-xs sm:text-[13px] text-stone-400 font-saans mt-1 line-clamp-1">
-                {project.subtitle}
-              </p>
-            </div>
-
-            {/* Visual Hardware / Browser Mockup Display */}
-            <div className="relative w-full rounded-xl overflow-hidden border border-white/10 bg-[#120e0d]/90 backdrop-blur-md shadow-[0_12px_32px_rgba(0,0,0,0.7)] mb-4">
-              {/* Hardware Top Chrome Bar */}
-              <div className="flex items-center justify-between border-b border-white/[0.08] px-3.5 py-2 bg-[#161211]/95 select-none relative z-10">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-[#ff5f56]/80" />
-                  <span className="h-2 w-2 rounded-full bg-[#ffbd2e]/80" />
-                  <span className="h-2 w-2 rounded-full bg-[#27c93f]/80" />
-                </div>
-
-                <div className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10px] font-mono text-stone-300 tracking-tight">
-                  <span className="text-[8px] opacity-70">🔒</span>
-                  <span className="truncate max-w-[150px] sm:max-w-none">{browserUrl}</span>
-                </div>
-
-                <span className="text-[9px] font-mono text-stone-400 uppercase tracking-wider font-semibold">
-                  {project.tags[0]}
-                </span>
-              </div>
-
-              {/* Clickable Image Container */}
-              <Link
-                href={project.href || "#"}
-                className="block relative w-full aspect-[16/10] overflow-hidden bg-stone-950 cursor-pointer"
-                aria-label={`Explore ${project.title} Case Study`}
-              >
-                <motion.div
-                  style={{ y: shouldReduceMotion ? 0 : imageParallax }}
-                  className="absolute inset-0 w-full h-[112%] -top-[6%]"
-                >
-                  <Image
-                    src={project.image || ""}
-                    alt={`${project.title} Product Presentation`}
-                    fill
-                    priority={index === 0}
-                    sizes="(max-width: 768px) 100vw, 600px"
-                    className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                    quality={85}
-                  />
-                </motion.div>
-
-                {/* Glass Specular Overlay */}
-                <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none z-10" />
-
-                {/* Hover Badge */}
-                <div className="absolute bottom-3 right-3 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#181312]/95 backdrop-blur-xl border border-white/20 text-white font-grotesk text-[11px] font-bold shadow-lg">
-                    <span>Inspect</span>
-                    <span style={{ color: project.accent }}>&rarr;</span>
-                  </span>
-                </div>
-              </Link>
-            </div>
-
-            {/* Narrative Description */}
-            <p className="text-[13px] sm:text-[13.5px] font-saans text-stone-300 leading-relaxed line-clamp-2 mb-4">
-              {project.description}
-            </p>
-
-            {/* Compact System Metrics Micro-Grid */}
-            <div className="grid grid-cols-3 gap-2 pt-3.5 border-t border-white/[0.08] mb-4">
-              {project.stats.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="p-2 sm:p-2.5 rounded-lg bg-white/[0.025] border border-white/[0.06] flex flex-col justify-between transition-colors hover:bg-white/[0.05]"
-                >
-                  <span className="text-xs sm:text-[13px] font-bold text-white font-saans tracking-tight leading-tight truncate">
-                    {stat.value}
-                  </span>
-                  <span
-                    className="text-[9px] font-mono uppercase tracking-wider mt-1 truncate font-semibold"
-                    style={{ color: project.accent }}
-                  >
-                    {stat.label.split(" ")[0]}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Footer: Tags & CTA */}
-          <div className="pt-3.5 border-t border-white/[0.08] flex items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-1.5">
-              {project.tags.slice(0, 2).map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[10px] font-grotesk font-medium text-stone-300 px-2 py-0.5 rounded-full bg-white/[0.03] border border-white/[0.06]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            {project.href && (
-              <Magnetic strength={0.14}>
-                <Link
-                  href={project.href}
-                  className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-stone-100 hover:bg-white text-stone-950 text-xs font-bold font-saans shadow-sm hover:shadow-[0_0_16px_rgba(255,255,255,0.22)] transition-all cursor-pointer"
-                >
-                  <span>Case Study</span>
-                  <span
-                    className="inline-block transition-transform duration-150 group-hover:translate-x-0.5"
-                    aria-hidden="true"
-                  >
-                    &rarr;
-                  </span>
-                </Link>
-              </Magnetic>
-            )}
-          </div>
-        </div>
-      </div>
+    const loadObserver = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          setShouldLoadVideo(true);
+          loadObserver.disconnect();
+        }
+      },
+      { rootMargin: "350px 0px 350px 0px" }
     );
-  }
 
-  /* -------------------------------------------------------------
-     02. EDITORIAL VIEW (Horizontal Split — Balanced & Magazine Style)
-     ------------------------------------------------------------- */
+    loadObserver.observe(el);
+    return () => loadObserver.disconnect();
+  }, [project.video, shouldReduceMotion]);
+
+  // Phase 2: Playback strictly when the user is in this specific project.
+  // Plays once (no loop) when the user enters the project view.
+  // Pauses when scrolled away, and replays from start if the user scrolls back.
+  useEffect(() => {
+    if (!project.video || shouldReduceMotion || !shouldLoadVideo) return;
+
+    const el = mediaContainerRef.current;
+    const video = videoRef.current;
+    if (!el || !video) return;
+
+    const playObserver = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          isCurrentlyInViewRef.current = true;
+
+          // If the user previously scrolled away from this project and returned, replay from beginning
+          if (hasLeftViewRef.current) {
+            try {
+              video.currentTime = 0;
+            } catch {
+              // Ignore seek if metadata still settling
+            }
+            hasLeftViewRef.current = false;
+          }
+
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Autoplay policy or unmuted restriction fallback
+            });
+          }
+        } else {
+          isCurrentlyInViewRef.current = false;
+          hasLeftViewRef.current = true;
+          video.pause();
+        }
+      },
+      {
+        threshold: 0.25,
+        rootMargin: "-20px 0px -20px 0px",
+      }
+    );
+
+    playObserver.observe(el);
+    return () => playObserver.disconnect();
+  }, [project.video, shouldReduceMotion, shouldLoadVideo]);
+
+  const handleCanPlay = useCallback(() => {
+    setIsVideoReady(true);
+    if (isCurrentlyInViewRef.current && videoRef.current && !videoRef.current.ended) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    if (!videoRef.current || !shouldLoadVideo || shouldReduceMotion) return;
+    const video = videoRef.current;
+    if (video.ended) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    } else if (video.paused && isCurrentlyInViewRef.current) {
+      video.play().catch(() => {});
+    }
+  }, [shouldLoadVideo, shouldReduceMotion]);
+
   return (
-    <div
-      ref={cardRef}
-      className="w-full"
-    >
+    <div ref={cardRef} className="w-full">
       <div
-        id={`project-editorial-${project.id}`}
-        className="card-raised p-6 sm:p-8 lg:p-9 transition-all duration-300 relative overflow-hidden group"
+        id={`project-${project.id}`}
+        className="group"
       >
-        {/* Ambient Color Illumination */}
         <div
-          className="absolute -top-32 -right-32 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
-          style={{ background: project.accentGlow }}
-        />
-
-        <div
-          className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center ${
+          className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${
             isReversed ? "lg:grid-flow-dense" : ""
           }`}
         >
-          {/* Narrative & Details Column (5 cols) */}
+          {/* Text Column */}
           <div
-            className={`lg:col-span-5 flex flex-col justify-between h-full gap-5 ${
+            className={`lg:col-span-5 flex flex-col justify-between h-full gap-6 ${
               isReversed ? "lg:col-start-8" : ""
             }`}
           >
+            {/* Project meta */}
             <div>
-              {/* Header: Identity & Role */}
-              <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-3 mb-4">
-                <span
-                  className="text-[10.5px] font-mono font-medium tracking-[0.16em] uppercase px-2.5 py-0.5 rounded-full border border-white/[0.12] bg-white/[0.04] backdrop-blur-md"
-                  style={{ color: project.accent }}
-                >
-                  {`0${index + 1} / ${project.category === "web" ? "EDITORIAL PLATFORM" : "MOBILE SYSTEMS"}`}
+              <div className="flex items-center gap-3 mb-5">
+                <span className="text-[11px] font-mono text-stone-500 tracking-[0.14em] uppercase">
+                  {String(index + 1).padStart(2, "0")} /{" "}
+                  {project.id === "galo" ? (
+                    <>
+                      <span className="text-rose-400/90 font-medium">Featured</span> · Mobile App
+                    </>
+                  ) : (
+                    project.category === "web" ? "Web Platform" : "Mobile App"
+                  )}
                 </span>
-                <span className="text-xs font-grotesk text-stone-400 font-medium">
+                <span className="text-stone-700 text-xs">·</span>
+                <span className="text-[11px] font-mono text-stone-500">
                   {project.duration}
                 </span>
               </div>
 
-              {/* Title & Subtitle */}
-              <div className="mb-3">
-                <h3 className="text-[24px] sm:text-[28px] font-bold text-white font-saans tracking-[-0.03em] leading-tight">
-                  {project.title}
-                </h3>
-                <p className="text-sm font-saans text-stone-400 mt-1">
-                  {project.subtitle}
-                </p>
-              </div>
+              {/* Title */}
+              <h3 className="text-[28px] sm:text-[34px] font-bold text-white font-saans tracking-[-0.03em] leading-tight mb-2">
+                {project.title}
+              </h3>
 
-              {/* Narrative Description */}
-              <p className="text-[13.5px] sm:text-[14px] font-saans text-stone-300 leading-relaxed mb-4">
+              {/* Subtitle */}
+              <p className="text-sm font-saans text-stone-400 mb-5 leading-relaxed">
+                {project.subtitle}
+              </p>
+
+              {/* Description */}
+              <p className="text-[15px] font-saans text-stone-300 leading-[1.72] mb-6">
                 {project.description}
               </p>
 
-              {/* System Metrics Strip */}
-              <div className="grid grid-cols-3 gap-2.5 pt-3.5 border-t border-white/[0.08] mb-4">
-                {project.stats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="p-2.5 rounded-lg bg-white/[0.025] border border-white/[0.06] flex flex-col justify-between"
-                  >
-                    <span className="text-[13.5px] font-bold text-white font-saans tracking-tight truncate">
-                      {stat.value}
-                    </span>
-                    <span
-                      className="text-[9.5px] font-mono uppercase tracking-wider mt-1 truncate font-medium"
-                      style={{ color: project.accent }}
-                    >
-                      {stat.label.split(" ")[0]}
-                    </span>
-                  </div>
-                ))}
+              {/* Role */}
+              <div className="flex items-center gap-2 mb-6">
+                <span
+                  className="w-1 h-1 rounded-full shrink-0"
+                  style={{ backgroundColor: project.accent }}
+                />
+                <span className="text-[13px] font-saans text-stone-300 font-medium">
+                  {project.role}
+                </span>
               </div>
-            </div>
 
-            {/* Action Bar */}
-            <div className="pt-3.5 border-t border-white/[0.08] flex items-center justify-between gap-3">
-              <div className="flex flex-wrap items-center gap-1.5">
-                {project.tags.slice(0, 3).map((tag) => (
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[10.5px] font-grotesk font-medium text-stone-300 px-2.5 py-0.5 rounded-full bg-white/[0.03] border border-white/[0.06]"
+                    className="text-[11.5px] font-saans text-stone-400 px-3 py-1 rounded-md bg-white/[0.04] border border-white/[0.07]"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
+            </div>
 
-              {project.href && (
-                <Magnetic strength={0.15}>
+            {/* CTA */}
+            {project.href && (
+              <div className="pt-2">
+                <Magnetic strength={0.16}>
                   <Link
                     href={project.href}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-100 hover:bg-white text-stone-950 text-xs font-bold font-saans shadow-sm hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all cursor-pointer"
+                    className="group/cta inline-flex items-center justify-center gap-2.5 h-11 px-6 rounded-full bg-stone-100 hover:bg-white text-stone-950 font-saans font-semibold text-[13.5px] transition-all shadow-[0_4px_20px_rgba(255,255,255,0.12)] hover:shadow-[0_4px_28px_rgba(255,255,255,0.22)] cursor-pointer"
                   >
-                    <span>Read Deep Dive</span>
-                    <span aria-hidden="true">&rarr;</span>
+                    <span>Read case study</span>
+                    <span
+                      className="inline-block transition-transform duration-200 group-hover/cta:translate-x-1 text-sm"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
                   </Link>
                 </Magnetic>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
-          {/* Visual Showcase Column (7 cols) */}
-          <div className={`lg:col-span-7 ${isReversed ? "lg:col-start-1" : ""}`}>
-            <div className="relative w-full rounded-xl overflow-hidden border border-white/10 bg-[#120e0d]/90 backdrop-blur-md shadow-2xl">
-              {/* Chrome bar */}
-              <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-2.5 bg-[#161211]/95 select-none relative z-10">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-[#ff5f56]" />
-                  <span className="h-2 w-2 rounded-full bg-[#ffbd2e]" />
-                  <span className="h-2 w-2 rounded-full bg-[#27c93f]" />
-                </div>
-                <div className="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[10.5px] font-mono text-stone-300">
-                  <span className="text-[9px]">🔒</span>
-                  <span>{browserUrl}</span>
-                </div>
-                <span className="text-[10px] font-mono text-stone-400 uppercase font-semibold">
-                  {project.tags[0]}
-                </span>
-              </div>
+          {/* Media Column (Image + Video Preview) */}
+          <div
+            ref={mediaContainerRef}
+            className={`lg:col-span-7 ${isReversed ? "lg:col-start-1" : ""}`}
+            onMouseEnter={handleMouseEnter}
+          >
+            <Link
+              href={project.href || "#"}
+              className="block relative w-full rounded-2xl overflow-hidden bg-stone-950 shadow-[0_24px_64px_rgba(0,0,0,0.7)] transition-transform duration-500 ease-out group-hover:scale-[1.01] cursor-pointer"
+              aria-label={`Explore ${project.title} case study`}
+            >
+              {/* Subtle accent glow behind image */}
+              <div
+                className="absolute inset-0 opacity-20 pointer-events-none z-0"
+                style={{
+                  background: `radial-gradient(ellipse at 60% 40%, ${project.accentGlow} 0%, transparent 70%)`,
+                }}
+              />
 
-              <Link
-                href={project.href || "#"}
-                className="block relative w-full h-[240px] sm:h-[300px] lg:h-[340px] overflow-hidden bg-stone-950 cursor-pointer"
-                aria-label={`Explore ${project.title} Case Study`}
-              >
+              {/* Discreet Motion Preview Badge */}
+              {project.video && !shouldReduceMotion && (
+                <div
+                  className={`absolute top-3.5 right-3.5 z-20 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-950/75 backdrop-blur-md border border-white/10 text-[10px] font-mono tracking-wider text-stone-300 pointer-events-none transition-all duration-500 ${
+                    isVideoReady ? "opacity-90 translate-y-0" : "opacity-0 -translate-y-1"
+                  }`}
+                >
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span
+                      className={`inline-flex rounded-full h-1.5 w-1.5 ${
+                        isPlaying ? "bg-emerald-400" : "bg-stone-400"
+                      }`}
+                    />
+                    {isPlaying && (
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    )}
+                  </span>
+                  <span className="uppercase text-[10px] tracking-[0.14em] font-medium text-stone-300">
+                    Preview
+                  </span>
+                </div>
+              )}
+
+              <div className="relative w-full h-[240px] sm:h-[300px] lg:h-[360px] overflow-hidden">
                 <motion.div
                   style={{ y: shouldReduceMotion ? 0 : imageParallax }}
-                  className="absolute inset-0 w-full h-[115%] -top-[7.5%]"
+                  className="absolute inset-0 w-full h-[114%] -top-[7%]"
                 >
-                  <Image
-                    src={project.image || ""}
-                    alt={`${project.title} Product Presentation`}
-                    fill
-                    sizes="(max-width: 1240px) 100vw, 700px"
-                    className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.025]"
-                    quality={85}
-                  />
+                  {/* Poster Image — Immediate high-fidelity render without layout shift */}
+                  {project.image && (
+                    <Image
+                      src={project.image}
+                      alt={`${project.title} — ${project.subtitle}`}
+                      fill
+                      priority={false}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1240px) 60vw, 720px"
+                      className="object-cover object-center"
+                      quality={88}
+                    />
+                  )}
+
+                  {/* High-Performance Video Preview (Plays strictly when user enters project, no loop) */}
+                  {project.video && shouldLoadVideo && !shouldReduceMotion && (
+                    <video
+                      ref={videoRef}
+                      muted
+                      playsInline
+                      preload="auto"
+                      disablePictureInPicture
+                      disableRemotePlayback
+                      onCanPlay={handleCanPlay}
+                      onPlaying={() => {
+                        setIsVideoReady(true);
+                        setIsPlaying(true);
+                      }}
+                      onPause={() => setIsPlaying(false)}
+                      onEnded={() => setIsPlaying(false)}
+                      className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 pointer-events-none ${
+                        isVideoReady ? "opacity-100" : "opacity-0"
+                      }`}
+                    >
+                      {project.video.webm && (
+                        <source src={project.video.webm} type="video/webm" />
+                      )}
+                      <source src={project.video.mp4} type="video/mp4" />
+                    </video>
+                  )}
                 </motion.div>
-                <div className="absolute top-0 inset-x-0 h-20 bg-gradient-to-b from-white/[0.08] to-transparent pointer-events-none z-10" />
-              </Link>
-            </div>
+
+                {/* Bottom fade */}
+                <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-stone-950/60 to-transparent pointer-events-none z-10" />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

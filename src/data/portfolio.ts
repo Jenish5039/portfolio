@@ -2,17 +2,16 @@
    Portfolio Data — Single source of truth
    ======================================== */
 
-export interface ProjectStat {
-  label: string;
-  value: string;
-  desc: string;
+export interface ProjectVideo {
+  webm?: string;
+  mp4: string;
 }
 
 export interface Project {
   id: string;
   title: string;
   subtitle: string;
-  category: "all" | "web" | "mobile";
+  category: "web" | "mobile";
   role: string;
   duration: string;
   accent: string;
@@ -20,7 +19,7 @@ export interface Project {
   description: string;
   tags: string[];
   image?: string;
-  stats: ProjectStat[];
+  video?: ProjectVideo;
   href?: string;
 }
 
@@ -35,8 +34,8 @@ export interface SocialLink {
 export const personalInfo = {
   name: "Jeme",
   fullName: "JENISH M",
-  role: "Product & UI/UX Designer",
-  location: "Hosur, Tamil Nadu · Remote",
+  role: "UI/UX & Product Designer",
+  location: "From India",
   email: "jenishlogesh@gmail.com",
   phone: "+91 79044 40223",
 } as const;
@@ -45,45 +44,42 @@ export const personalInfo = {
 
 export const projects: Project[] = [
   {
-    id: "georythum",
-    title: "GeoRythum",
-    subtitle: "Geopolitical & Climate Knowledge Platform",
-    category: "web",
-    role: "Lead UI/UX & System Designer",
-    duration: "2 Weeks Sprint",
-    accent: "#c16b3a",
-    accentGlow: "rgba(193, 107, 58, 0.28)",
-    description:
-      "An editorial platform for geopolitical and climate analysis, structured around connected series reading, modular typography, and distraction-free ergonomics.",
-    tags: ["Product Strategy", "Editorial UX", "Figma Design System", "APCA Contrast"],
-    image: "/georythum-showcase.jpeg",
-    stats: [
-      { label: "INFORMATION ARCHITECTURE", value: "Series IA", desc: "Multi-chapter connected reading paths" },
-      { label: "DESIGN TOKENS", value: "32+ Tokens", desc: "Documented typography & color primitives" },
-      { label: "READING ERGONOMICS", value: "Editorial Scale", desc: "Contrast-tuned serif & mono hierarchy" },
-    ],
-    href: "/case-study/georythum",
-  },
-
-  {
     id: "galo",
     title: "GALO",
     subtitle: "Privacy-First Memory Vault & Time Capsule",
     category: "mobile",
-    role: "Mobile UI/UX Designer",
+    role: "UI/UX Designer",
     duration: "4 Weeks Sprint",
     accent: "#e4715a",
     accentGlow: "rgba(228, 113, 90, 0.28)",
     description:
       "A mobile application designed to preserve personal moments through secure, time-locked capsules — replacing algorithmic social feeds with intentional future reflection.",
     tags: ["Product Design", "Mobile iOS/Android", "Design System", "Privacy UX"],
-    image: "/galo-showcase.jpeg",
-    stats: [
-      { label: "INTERACTION MODEL", value: "Time-Locked", desc: "Scheduled future capsule delivery engine" },
-      { label: "SECURITY MODEL", value: "Local-First", desc: "Biometric authentication concept" },
-      { label: "COMPONENT LIBRARY", value: "24+ Components", desc: "Modular Figma mobile UI system" },
-    ],
+    image: "/galo-showcase.webp",
+    video: {
+      webm: "/galo-preview.webm",
+      mp4: "/galo-preview.mp4",
+    },
     href: "/case-study/galo",
+  },
+  {
+    id: "georythum",
+    title: "GeoRythum",
+    subtitle: "Geopolitical & Climate Knowledge Platform",
+    category: "web",
+    role: "UI/UX Designer",
+    duration: "2 Weeks Sprint",
+    accent: "#c16b3a",
+    accentGlow: "rgba(193, 107, 58, 0.28)",
+    description:
+      "An editorial platform for geopolitical and climate analysis, structured around connected series reading, modular typography, and distraction-free ergonomics.",
+    tags: ["Product Strategy", "Editorial UX", "Figma Design System", "APCA Contrast"],
+    image: "/georythum-showcase.webp",
+    video: {
+      webm: "/georythum-preview.webm",
+      mp4: "/georythum-preview.mp4",
+    },
+    href: "/case-study/georythum",
   },
 ];
 
@@ -91,33 +87,33 @@ export const projects: Project[] = [
 
 export interface ContactChannel {
   id: string;
-  action: string;
+  label: string;
   value: string;
-  description: string;
   href: string;
+  external: boolean;
 }
 
 export const contactChannels: ContactChannel[] = [
   {
     id: "email",
-    action: "EMAIL DISPATCH",
-    value: "jenishlogesh@gmail.com",
-    description: "Primary inbox for project inquiries and recruitment",
-    href: "mailto:jenishlogesh@gmail.com",
-  },
-  {
-    id: "phone",
-    action: "DIRECT VOICE",
-    value: "+91 79044 40223",
-    description: "Available during business hours IST",
-    href: "tel:+917904440223",
+    label: "Email",
+    value: personalInfo.email,
+    href: `mailto:${personalInfo.email}`,
+    external: false,
   },
   {
     id: "linkedin",
-    action: "PROFESSIONAL NETWORK",
-    value: "linkedin.com/in/jenish-m-b225171a9",
-    description: "Connect on LinkedIn for professional updates",
+    label: "LinkedIn",
+    value: "linkedin.com/in/jenish-m",
     href: "https://linkedin.com/in/jenish-m-b225171a9",
+    external: true,
+  },
+  {
+    id: "phone",
+    label: "Phone",
+    value: personalInfo.phone,
+    href: `tel:${personalInfo.phone.replace(/\s+/g, "")}`,
+    external: false,
   },
 ];
 

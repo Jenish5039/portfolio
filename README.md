@@ -31,13 +31,13 @@ The site is engineered with **Next.js 16 (App Router)**, **React 19**, **Tailwin
 ### 🎬 Cinematic Cursor-Scrubbed Hero
 - **Dual-Codec Hardware Acceleration**: Lightweight WebM prioritized with high-compatibility MP4 fallback.
 - **Microsecond Cursor Scrubbing**: Delta-time mouse tracking mapped smoothly to video playback with seek-flooding prevention.
-- **Editorial Typography Overlay**: Cormorant Garamond serif paired with Plus Jakarta Sans and Geist Mono.
+- **Editorial Typography Overlay**: PT Serif paired with Plus Jakarta Sans and Geist Mono.
 
 ### 📱 Deep UX Case Studies
 - **Behance-Style Case Study Layout**: High-resolution, multi-section design showcases for:
   - **[GeoRythum](src/app/case-study/georythum/page.tsx)**: Distraction-free geopolitical & climate editorial knowledge platform.
   - **[GALO](src/app/case-study/galo/page.tsx)**: Privacy-first memory vault and time-locked capsule mobile application.
-- **Reading Progress & Sticky Navigation**: Dynamic top progress bar, floating back-to-top button, and seamless case study switcher.
+- **Seamless Navigation**: Floating back-to-top button and quick case study switcher.
 
 ### ⚡ Dynamic Island Navigation
 - **Floating Capsule Navbar**: Glassmorphism backdrop blur (`backdrop-blur-xl`), smart auto-hide on downward scroll, and instant reveal on upward scroll.
@@ -50,7 +50,7 @@ The site is engineered with **Next.js 16 (App Router)**, **React 19**, **Tailwin
 
 ### 🎨 Warm Obsidian Design System
 - Custom color tokens inspired by dark studio aesthetics: `canvas`, `surface-glass`, `rim-glass`, `ember-red`, `warm-amber`, `copper-wire`.
-- Distinct typography pairings: **Cormorant Garamond**, **Plus Jakarta Sans**, **Space Grotesk**, **PT Serif**, and **Geist Mono**.
+- Distinct typography pairings: **Plus Jakarta Sans**, **Space Grotesk**, **PT Serif**, and **Geist Mono**.
 
 ### 🚀 SEO, Accessibility & Web Vitals
 - Complete metadata suite with OpenGraph preview cards, Twitter cards, and structured JSON-LD.
@@ -68,7 +68,7 @@ The site is engineered with **Next.js 16 (App Router)**, **React 19**, **Tailwin
 | **Language** | [TypeScript 5.0](https://www.typescriptlang.org/) |
 | **Styling** | [Tailwind CSS v3.4](https://tailwindcss.com/) + PostCSS + Autoprefixer |
 | **Motion & Animation** | [Framer Motion 12.38](https://www.framer.com/motion/) |
-| **Typography** | `next/font/google` (Plus Jakarta Sans, Space Grotesk, Cormorant Garamond, PT Serif, Geist Mono) |
+| **Typography** | `next/font/google` (Plus Jakarta Sans, Space Grotesk, PT Serif, Geist Mono) |
 | **Code Quality** | ESLint 9 (`eslint-config-next`) |
 
 ---
@@ -80,12 +80,14 @@ portfolio-master/
 ├── public/
 │   ├── case-studies/           # High-resolution case study assets
 │   ├── Resume/                 # PDF Resume & CV documents
-│   ├── ME.png                  # Profile photograph
+│   ├── ME.webp                 # Optimized profile photograph
 │   ├── Herosec.webm            # Primary video format
-│   ├── Herosec.mp4             # Video fallback
+│   ├── Herosec.mp4             # Fast-start video fallback
 │   ├── Herosec_poster.webp     # Instant video poster frame
-│   ├── galo-preview.webp       # Project card preview images
-│   └── georythum-preview.webp  # Project card preview images
+│   ├── galo-preview.mp4 / webm # Motion preview recordings
+│   ├── galo-showcase.webp      # Project card showcase imagery
+│   ├── georythum-preview.mp4   # Motion preview recordings
+│   └── georythum-showcase.webp # Project card showcase imagery
 ├── src/
 │   ├── app/
 │   │   ├── case-study/
@@ -100,7 +102,7 @@ portfolio-master/
 │   │   └── sitemap.ts              # Automated sitemap.xml generator
 │   ├── components/
 │   │   ├── case-study/
-│   │   │   ├── CaseStudyLayout.tsx          # Case study template with lightbox & progress bar
+│   │   │   ├── CaseStudyLayout.tsx          # Case study template with lightbox
 │   │   │   └── case-study-layout.module.css # Case study layout styling
 │   │   ├── layout/
 │   │   │   ├── Footer.tsx          # Studio footer with contact triggers & socials
@@ -109,12 +111,11 @@ portfolio-master/
 │   │   │   ├── About.tsx           # Bento grid about section with 3 core pillars
 │   │   │   ├── Contact.tsx         # Multi-channel direct contact matrix
 │   │   │   ├── Hero.tsx            # Headline, quick actions, & cursor-scrubbed video
-│   │   │   └── Projects.tsx        # Selected works index (grid & editorial views)
+│   │   │   └── Projects.tsx        # Selected works index
 │   │   └── ui/
 │   │       ├── Magnetic.tsx               # Magnetic cursor physics component
 │   │       ├── ProjectCard.tsx            # Project showcase card
-│   │       ├── ScrollReveal.tsx           # Framer motion view-trigger wrapper
-│   │       └── SectionHeading.tsx         # Standardized numbered section header
+│   │       └── ScrollReveal.tsx           # Framer motion view-trigger wrapper
 │   ├── data/
 │   │   └── portfolio.ts            # Single source of truth for projects, bio, & case studies
 │   └── hooks/
@@ -190,7 +191,7 @@ All profile data, projects, case studies, contact channels, and skills are manag
 - **Role**: Product & UI/UX Designer · AI-Accelerated Frontend
 - **Email**: [jenishlogesh@gmail.com](mailto:jenishlogesh@gmail.com)
 - **LinkedIn**: [linkedin.com/in/jenish-m-b225171a9](https://linkedin.com/in/jenish-m-b225171a9)
-- **Location**: Hosur, Tamil Nadu
+- **Location**: From India
 
 ---
 

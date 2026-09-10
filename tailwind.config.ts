@@ -33,7 +33,6 @@ const config: Config = {
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
         serif: ["var(--font-pt-serif)", "PT Serif", "Georgia", "serif"],
         "pt-serif": ["var(--font-pt-serif)", "PT Serif", "Georgia", "serif"],
-        "serif-display": ["var(--font-serif-display)", "Cormorant Garamond", "Georgia", "serif"],
       },
       fontWeight: {
         light: "300",

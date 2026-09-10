@@ -34,7 +34,6 @@
   --font-saansfont: var(--font-saans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-pxgroteskfont: var(--font-pxgrotesk), 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-pt-seriffont: var(--font-pt-serif), 'PT Serif', Georgia, serif;
-  --font-serif-display: var(--font-serif-display), 'Cormorant Garamond', Georgia, serif;
   --font-ui-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Weights */
@@ -82,6 +81,26 @@ html {
   background-color: var(--color-canvas);
   color: var(--color-text-primary);
   text-rendering: optimizeLegibility;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
@@ -148,46 +167,6 @@ body::after {
 .font-serif,
 .font-pt-serif {
   font-family: var(--font-pt-seriffont);
-}
-
-.font-serif-display {
-  font-family: var(--font-serif-display), var(--font-pt-seriffont), Georgia, serif;
-}
-
-
-/* ========================================
-   Smoked Obsidian Glass Surfaces (Warm Architectural Craft)
-   ======================================== */
-
-/* Raised Smoked Glass Slab — Luxury Spatial Surface */
-.card-raised {
-  background: rgba(22, 17, 16, 0.68);
-  backdrop-filter: blur(28px) saturate(180%);
-  -webkit-backdrop-filter: blur(28px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 16px;
-  box-shadow:
-    0 20px 50px -12px rgba(0, 0, 0, 0.85),
-    0 1px 1.5px rgba(255, 255, 255, 0.12) inset,
-    0 -1px 1px rgba(255, 255, 255, 0.03) inset;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  transition:
-    border-color 0.28s var(--ease-antigravity),
-    background-color 0.28s var(--ease-antigravity),
-    box-shadow 0.28s var(--ease-antigravity),
-    transform 0.28s var(--ease-antigravity);
-}
-
-.card-raised:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  background: rgba(26, 20, 19, 0.85);
-  box-shadow:
-    0 28px 64px -10px rgba(0, 0, 0, 0.92),
-    0 0 24px rgba(255, 255, 255, 0.05),
-    0 1px 2px rgba(255, 255, 255, 0.2) inset,
-    0 -1px 1.5px rgba(255, 255, 255, 0.06) inset;
-  transform: translateY(-2px) translateZ(0);
 }
 
 /* ========================================

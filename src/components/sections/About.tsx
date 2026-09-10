@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import SectionHeading from "@/components/ui/SectionHeading";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
 export default function About() {
@@ -14,25 +13,25 @@ export default function About() {
     offset: ["start end", "end start"],
   });
 
-  const statementParallax = useTransform(scrollYProgress, [0, 1], [-10, 10]);
-  const portraitParallax = useTransform(scrollYProgress, [0, 1], [10, -10]);
+  const statementParallax = useTransform(scrollYProgress, [0, 1], [-8, 8]);
+  const portraitParallax = useTransform(scrollYProgress, [0, 1], [8, -8]);
   const portraitZoom = useTransform(scrollYProgress, [0, 0.5, 1], [1.04, 1.0, 1.02]);
 
   const pillars = [
     {
       num: "01",
-      title: "Generative UX Research",
-      desc: "Uncovering latent human needs, mapping cognitive workflows, and validating usability through rigorous testing before pushing pixels.",
+      title: "User Research & Discovery",
+      desc: "Understanding user needs and problem context before designing. Usability testing, user flows, and structured problem framing first.",
     },
     {
       num: "02",
-      title: "Multi-Tier Design Systems",
-      desc: "Architecting atomic Figma variables, documented design tokens, and modular UI patterns adhering to strict WCAG 2.2 AAA accessibility.",
+      title: "Design Systems",
+      desc: "Figma variables, documented tokens, and modular component libraries built to WCAG 2.2 AA. Scalable from day one.",
     },
     {
       num: "03",
-      title: "Tactile Frontend Execution",
-      desc: "Bridging the design-to-production divide with high-fidelity React & Next.js implementation, ensuring zero loss of design intent.",
+      title: "Frontend-Aware Design",
+      desc: "Understanding component architecture and responsive code constraints so design intent translates cleanly into production.",
     },
   ];
 
@@ -45,123 +44,147 @@ export default function About() {
     >
       <div className="mx-auto max-w-[1240px]">
         <ScrollReveal>
-          <SectionHeading
-            number="02"
-            title="About & Approach"
-            subtitle="Balancing rigorous problem discovery with tactile digital product craft."
-          />
+          <div className="flex flex-col items-start gap-3 mb-14 sm:mb-18">
+            {/* Dynamic Section Reading Lead Line */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-60px 0px" }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="w-10 h-[1.5px] bg-gradient-to-r from-rose-500 to-amber-500 origin-left mb-0.5"
+            />
+            <span className="text-[11px] font-mono tracking-[0.18em] text-stone-500 uppercase">
+              02 / About
+            </span>
+            <h2
+              id="about-heading"
+              className="text-[32px] sm:text-[42px] lg:text-[48px] font-bold leading-[1.08] tracking-[-0.035em] text-white font-saans"
+            >
+              About &amp; Approach
+            </h2>
+          </div>
         </ScrollReveal>
 
-        {/* Bento Grid System with Dynamic Scroll Parallax */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-stretch">
-          
-          {/* Main Statement & Core Pillars (8 cols) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+
+          {/* Left: Statement & Pillars */}
           <motion.div
             style={{ y: statementParallax }}
-            className="lg:col-span-8 flex flex-col will-change-transform"
+            className="lg:col-span-8 flex flex-col gap-8 will-change-transform"
           >
-            <div className="card-raised p-6 sm:p-10 lg:p-12 flex flex-col justify-between h-full">
-              <div className="flex flex-col justify-between h-full gap-8">
-                <div className="space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-[11px] font-mono text-stone-300">
-                    <span className="h-1.5 w-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]" />
-                    <span>JENISH M · PRODUCT &amp; UI/UX DESIGNER</span>
-                  </div>
-                  <h3 className="text-[24px] sm:text-[30px] lg:text-[34px] font-bold leading-[1.25] tracking-[-0.03em] text-white font-saans">
-                    Designing thoughtful, user-centered digital products backed by research and engineering fidelity.
-                  </h3>
-                  <p className="text-[15px] sm:text-[16.5px] text-stone-300 leading-[1.75] font-saans font-normal max-w-2xl pt-1">
-                    I am Jenish M (known professionally as Jeme) — a Product &amp; UI/UX Designer dedicated to solving complex user problems through user research, intuitive interaction design, and scalable Figma design systems. To bridge the gap between design and production, I maintain deep frontend engineering fluency in React and Next.js, ensuring every design decision and sub-pixel micro-interaction translates seamlessly into functional production applications.
-                  </p>
-                </div>
+            {/* Main statement */}
+            <ScrollReveal>
+              <div className="space-y-5">
+                <h3 className="text-[22px] sm:text-[28px] lg:text-[32px] font-bold leading-[1.3] tracking-[-0.025em] text-white font-saans">
+                  I&apos;m Jenish — I turn complex product problems into clear, usable experiences.
+                </h3>
+                <p className="text-[15.5px] sm:text-[16.5px] text-stone-300 leading-[1.78] font-saans font-normal max-w-2xl">
+                  My work combines UX thinking, visual systems, interaction design, and rapid prototyping. With a background in computer science, I enjoy working closely with technology to take ideas from early flows to polished interfaces.
+                </p>
+              </div>
+            </ScrollReveal>
 
-                {/* 3 Pillars Grid with Micro-hover */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 sm:pt-8 border-t border-white/[0.08]">
-                  {pillars.map((pillar, idx) => (
-                    <motion.div
-                      key={pillar.num}
-                      initial={{ opacity: 0, y: 16 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.08 * idx, ease: [0.16, 1, 0.3, 1] }}
-                      className="group flex flex-col gap-2 p-4 rounded-xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-200"
-                    >
-                      <span className="text-[11px] font-mono font-bold text-rose-400">
-                        {pillar.num}
-                      </span>
-                      <span className="text-[14.5px] font-saans text-white font-bold tracking-tight">
-                        {pillar.title}
-                      </span>
-                      <p className="text-[13px] text-stone-300 leading-relaxed font-saans font-normal">
-                        {pillar.desc}
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
+            {/* Pillars */}
+            <ScrollReveal delay={0.08}>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 pt-8 border-t border-white/[0.08]">
+                {pillars.map((pillar, idx) => (
+                  <motion.div
+                    key={pillar.num}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.07 * idx, ease: [0.16, 1, 0.3, 1] }}
+                    className={`flex flex-col gap-3 py-6 ${
+                      idx < pillars.length - 1 ? "sm:border-r border-white/[0.07] sm:pr-7" : ""
+                    } ${idx > 0 ? "sm:pl-7" : ""} ${
+                      idx > 0 ? "border-t sm:border-t-0 border-white/[0.07]" : ""
+                    }`}
+                  >
+                    <span className="text-[11px] font-mono font-medium text-stone-500">
+                      {pillar.num}
+                    </span>
+                    <span className="text-[14px] font-saans text-white font-semibold tracking-tight leading-snug">
+                      {pillar.title}
+                    </span>
+                    <p className="text-[13px] text-stone-400 leading-relaxed font-saans font-normal">
+                      {pillar.desc}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </ScrollReveal>
 
-                {/* Design Credentials & Toolkit Matrix */}
-                <div className="pt-6 border-t border-white/[0.08] grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
-                  <div className="flex flex-col gap-1.5 p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
-                    <span className="text-[10px] uppercase tracking-widest text-stone-400">CERTIFICATIONS</span>
-                    <span className="text-stone-200 font-semibold">IBM Enterprise Design Thinking</span>
-                    <span className="text-stone-400 text-[11px]">Accenture User Experience Practitioner</span>
-                  </div>
-                  <div className="flex flex-col gap-1.5 p-3 rounded-lg bg-white/[0.02] border border-white/[0.06]">
-                    <span className="text-[10px] uppercase tracking-widest text-stone-400">PRIMARY TOOLKIT</span>
-                    <span className="text-stone-200 font-semibold">Figma, Variables, Design Tokens</span>
-                    <span className="text-stone-400 text-[11px]">React, Next.js, Framer Motion, Tailwind</span>
-                  </div>
+            {/* Credentials */}
+            <ScrollReveal delay={0.14}>
+              <div className="pt-6 border-t border-white/[0.08] flex flex-wrap gap-x-10 gap-y-4">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[10.5px] font-mono uppercase tracking-widest text-stone-500">
+                    Certifications
+                  </span>
+                  <span className="text-[13.5px] text-stone-200 font-saans font-medium">
+                    IBM Enterprise Design Thinking
+                  </span>
+                  <span className="text-[12.5px] text-stone-400 font-saans">
+                    Accenture UX Practitioner
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[10.5px] font-mono uppercase tracking-widest text-stone-500">
+                    Toolkit
+                  </span>
+                  <span className="text-[13.5px] text-stone-200 font-saans font-medium">
+                    Figma, Variables, Design Tokens
+                  </span>
+                  <span className="text-[12.5px] text-stone-400 font-saans">
+                    React, Next.js, Framer Motion, Tailwind
+                  </span>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
           </motion.div>
 
-          {/* Portrait & Quick Status (4 cols) */}
+          {/* Right: Portrait */}
           <motion.div
             style={{ y: portraitParallax }}
             className="lg:col-span-4 flex flex-col will-change-transform"
           >
-            <div className="card-raised p-6 sm:p-8 flex flex-col justify-between h-full">
-              <div className="flex flex-col justify-between h-full gap-6">
-                <div className="relative w-full flex-1 min-h-[280px] sm:min-h-[320px] rounded-xl overflow-hidden bg-stone-950/60 border border-white/[0.08] shadow-md group">
-                  <motion.div
-                    className="absolute inset-0 w-full h-full"
-                    style={{ scale: portraitZoom }}
-                  >
-                    <Image
-                      src="/ME.png"
-                      alt="Jenish M (Jeme) - Product & UI/UX Designer"
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 380px"
-                      className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                      quality={85}
-                    />
-                  </motion.div>
-                </div>
+            <div className="flex flex-col gap-5">
+              {/* Portrait image */}
+              <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-stone-950 shadow-[0_20px_50px_rgba(0,0,0,0.6)] group">
+                <motion.div
+                  className="absolute inset-0 w-full h-full"
+                  style={{ scale: portraitZoom }}
+                >
+                  <Image
+                    src="/ME.webp"
+                    alt="Jenish M (Jeme) — UI/UX & Product Designer"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 380px"
+                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                    quality={85}
+                  />
+                </motion.div>
+              </div>
 
-                <div className="flex flex-col gap-3 pt-3 border-t border-white/[0.08] text-xs font-mono text-stone-300">
-                  <div className="flex items-center justify-between">
-                    <span className="text-stone-400 font-medium uppercase tracking-wider">NAME</span>
-                    <span className="text-white font-semibold">JENISH M</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-stone-400 font-medium uppercase tracking-wider">LOCATION</span>
-                    <span className="text-white font-semibold">Hosur / Remote</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-stone-400 font-medium uppercase tracking-wider">STATUS</span>
-                    <span className="text-white font-semibold flex items-center gap-2">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,1)]" />
-                      </span>
-                      Available
+              {/* Status & info */}
+              <div className="flex flex-col gap-2.5 text-[13px] font-saans text-stone-300">
+                <div className="flex items-center justify-between py-2 border-b border-white/[0.07]">
+                  <span className="text-stone-500 font-medium">Location</span>
+                  <span className="text-stone-200">From India</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-white/[0.07]">
+                  <span className="text-stone-500 font-medium">Focus</span>
+                  <span className="text-stone-200">Product &amp; Systems</span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-stone-500 font-medium">Status</span>
+                  <span className="text-stone-200 flex items-center gap-2">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-60" />
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-rose-500" />
                     </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-stone-400 font-medium uppercase tracking-wider">FOCUS</span>
-                    <span className="text-rose-400 font-semibold">Product &amp; Systems</span>
-                  </div>
+                    Available
+                  </span>
                 </div>
               </div>
             </div>

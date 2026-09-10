@@ -1,41 +1,31 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Space_Grotesk, Geist_Mono, PT_Serif, Cormorant_Garamond } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk, Geist_Mono, PT_Serif } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-saans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-pxgrotesk",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
   display: "swap",
 });
 
 const ptSerif = PT_Serif({
   variable: "--font-pt-serif",
   subsets: ["latin"],
-  weight: ["400", "700"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  variable: "--font-serif-display",
-  subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: "400",
+  style: "italic",
   display: "swap",
 });
 
@@ -50,16 +40,17 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://jenish.design"),
   title: {
-    default: "Jeme — Product & UI/UX Designer",
+    default: "Jeme — UI/UX & Product Designer",
     template: "%s | Jeme",
   },
   description:
-    "Portfolio of Jeme, a Product & UI/UX Designer crafting research-driven digital products, scalable Figma design systems, and tactile frontend interfaces.",
+    "Portfolio of Jeme, a UI/UX & Product Designer crafting research-driven digital products, scalable Figma design systems, and thoughtful frontend interfaces.",
   keywords: [
-    "Product Designer",
+    "Junior Product Designer",
     "UI/UX Designer",
+    "Product Designer",
+    "UI/UX & Product Designer",
     "UX Researcher",
-    "Design Systems Architect",
     "Information Architecture",
     "Interaction Design",
     "Figma Variables",
@@ -70,7 +61,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Jeme" }],
   creator: "Jeme",
   openGraph: {
-    title: "Jeme — Product & UI/UX Designer",
+    title: "Jeme — UI/UX & Product Designer",
     description:
       "Crafting intuitive digital products, UX research frameworks, and scalable Figma design systems with high-fidelity frontend execution.",
     type: "website",
@@ -82,13 +73,13 @@ export const metadata: Metadata = {
         url: "/georythum-preview.webp",
         width: 1200,
         height: 630,
-        alt: "Jeme — Product & UI/UX Designer",
+        alt: "Jeme — UI/UX & Product Designer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jeme — Product & UI/UX Designer",
+    title: "Jeme — UI/UX & Product Designer",
     description:
       "Crafting intuitive digital products, UX research frameworks, and scalable Figma design systems with high-fidelity frontend execution.",
     creator: "@jenishm",
@@ -108,10 +99,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${geistMono.variable} ${ptSerif.variable} ${cormorant.variable}`}
+      className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${geistMono.variable} ${ptSerif.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preload" href="/Herosec_poster.webp" as="image" type="image/webp" />
+      </head>
       <body className="bg-canvas text-text-primary antialiased font-saans selection:bg-rose-500/30 selection:text-white" suppressHydrationWarning>
         <script
           dangerouslySetInnerHTML={{

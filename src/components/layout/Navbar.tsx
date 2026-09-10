@@ -140,14 +140,14 @@ export default function Navbar() {
             <button
               onClick={() => handleNavClick("hero")}
               className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#120e0d]/85 hover:bg-[#1a1413]/95 border border-white/10 hover:border-white/20 backdrop-blur-2xl shadow-[0_8px_24px_rgba(0,0,0,0.7)] transition-all duration-200 cursor-pointer text-left"
-              aria-label="Jeme - Product & UI/UX Designer"
+              aria-label="Jeme - UI/UX & Product Designer"
             >
               <span className="font-saans font-bold text-sm tracking-tight text-white group-hover:text-stone-200 transition-colors">
                 Jeme
               </span>
               <span className="h-1.5 w-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]" />
               <span className="text-[11px] font-mono text-stone-400 font-normal">
-                Product &amp; UI/UX Designer
+                UI/UX &amp; Product Designer
               </span>
             </button>
           )}
@@ -274,6 +274,28 @@ export default function Navbar() {
             <span>Jeme</span>
             <span className="h-1.5 w-1.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]" />
           </Link>
+
+          {/* Dynamic Active Section Reading Tracker (Mobile) */}
+          <AnimatePresence mode="wait">
+            {!isCaseStudy && activeSection !== "hero" && (
+              <motion.div
+                key={activeSection}
+                initial={{ opacity: 0, y: -4, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/[0.06] border border-white/10 text-[10.5px] font-mono text-stone-300"
+              >
+                <span className="text-rose-400 font-semibold">
+                  {SECTIONS.find((s) => s.id === activeSection)?.num}
+                </span>
+                <span className="text-white/20">/</span>
+                <span className="text-white font-saans font-medium">
+                  {SECTIONS.find((s) => s.id === activeSection)?.label}
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
