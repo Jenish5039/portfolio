@@ -238,7 +238,7 @@ export default function Navbar() {
 
           {/* CV / Resume Action Button */}
           <a
-            href="/Resume/jenish-cv.pdf"
+            href="/Resume/Jeme-cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative flex h-10 w-10 items-center justify-center rounded-xl text-stone-400 hover:text-white hover:bg-white/[0.08] transition-all cursor-pointer"
@@ -366,7 +366,7 @@ export default function Navbar() {
 
               <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
                 <a
-                  href="/Resume/jenish-cv.pdf"
+                  href="/Resume/Jeme-cv.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full text-center justify-center py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 inline-flex items-center gap-1.5 text-xs font-saans font-semibold text-white transition-colors"

@@ -190,7 +190,7 @@ export default function Hero() {
             </button>
 
             <a
-              href="/Resume/jenish-cv.pdf"
+              href="/Resume/Jeme-cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-1.5 h-11 px-5 rounded-full bg-white/[0.06] hover:bg-white/[0.11] text-stone-300 hover:text-white border border-white/[0.12] hover:border-white/20 font-saans font-medium text-[13.5px] transition-all backdrop-blur-md cursor-pointer"
